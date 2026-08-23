@@ -18,12 +18,12 @@
 
 > **This week's research brief:** _(first run pending — Claude writes a 2–3 sentence overview of the week's top findings here.)_
 
-| Focus Area | This week's file |
-| --- | --- |
-| 🍜 Southeast Asian Food & Culture | _(first run pending)_ |
-| 🤖 AI Engineering | _(first run pending)_ |
-| 📊 Data Science | _(first run pending)_ |
-| 🏥 Healthcare | _(first run pending)_ |
+| Focus Area | Summary | File |
+| --- | --- | --- |
+| 🍜 Southeast Asian Food & Culture | _(first run pending)_ | — |
+| 🤖 AI Engineering | _(first run pending)_ | — |
+| 📊 Data Science | _(first run pending)_ | — |
+| 🏥 Healthcare | _(first run pending)_ | — |
 
 *(Claude replaces this section each week with the latest update.)*
 

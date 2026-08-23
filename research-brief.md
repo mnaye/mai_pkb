@@ -38,7 +38,10 @@ Each weekly file should contain:
 After writing the topic files, **replace** the contents of `README.md`'s **This Week** section (near the top of the README) so it reflects only the current week:
 
 1. **This week's research brief** — replace the blockquote with a fresh **2–3 sentence overview** of the week's top findings across the areas covered (the through-line / why it matters).
-2. **The table** — for each focus area, link to this week's file if it has one, or show `—` if that area wasn't in this week's top 3.
+2. **The table** — one row per focus area with three columns:
+   - **Focus Area** — the area name (keep the emoji).
+   - **Summary** — a one-line takeaway for that area this week, or `—` if it wasn't in the top 3.
+   - **File** — a markdown link to this week's dated file for that area (e.g. `[2026-W33](ai-engineering/2026-W33.md)`), or `—` if it wasn't in the top 3.
 
 Do not keep prior weeks in this section — the dated files under each folder are the archive.
 
