@@ -1,1 +1,2 @@
 date,run_id,week,areas,model,conclusion,turns,cost_usd,duration_s,denials,note
+2026-08-23,32644519184,2026-W34,ai-engineering+healthcare,claude-opus-5,failure,27,1.3465515000000001,196,0,failed (success)
