@@ -41,8 +41,9 @@ env:
   # ── The governor's dials ────────────────────────────────────────────────
   GOV_MODEL: claude-opus-5     # heaviest draw on the Pro window; caps matter
   GOV_MAX_TURNS: '20'          # a 4-area run took 20 turns; this is 2 areas
-  GOV_SEARCHES_PER_AREA: '4'   # WebSearch calls the agent may spend per area
-  GOV_FETCHES_PER_AREA: '6'    # WebFetch (page scrape) calls per area
+  GOV_SEARCHES_PER_AREA: '5'   # WebSearch calls the agent may spend per area
+  GOV_FETCHES_PER_AREA: '4'    # WebFetch (page scrape) calls per area — the
+                               # token-heaviest call; tighten this dial first
   GOV_AREAS: 'ai-engineering healthcare'   # every run covers exactly these
 
 jobs:
@@ -125,10 +126,15 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # Claude's own report in the job summary, next to the governor's numbers.
           display_report: true
+          # --allowedTools is ADDITIVE on top of a built-in default set, not a
+          # strict allowlist, so Task must be denied explicitly. Subagents are
+          # the worst case for this budget: each is a fresh context that re-reads
+          # files, and --max-turns bounds the parent loop, not what runs inside.
           claude_args: >-
             --model ${{ env.GOV_MODEL }}
             --max-turns ${{ env.GOV_MAX_TURNS }}
             --allowedTools WebSearch,WebFetch,Read,Write,Edit,Bash
+            --disallowedTools Task
           prompt: |
             Follow the instructions in research-brief.md.
 

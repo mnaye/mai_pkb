@@ -24,12 +24,25 @@ makes a run that *does* get cut short still leave something behind.
 | `--max-turns` | `claude_args` | The agent is stopped after N turns, full stop. |
 | `timeout-minutes: 25` | job level | The runner kills the job on wall clock. |
 | `concurrency: weekly-research` | workflow level | Two runs can never overlap and double-spend. |
+| `--disallowedTools Task` | `claude_args` | No subagents. |
 | Already-published guard | `Plan the run` step | Re-runs no-op if this week's files already exist. |
+
+**Why `--disallowedTools Task` is not redundant.** `--allowedTools` is *additive* — it adds
+to Claude Code's built-in default tool set rather than replacing it
+([claude-code#62608](https://github.com/anthropics/claude-code/issues/62608)), so listing
+six tools does **not** deny the rest. Subagents are the worst case for this budget: each is
+a fresh context that re-reads files, and `--max-turns` bounds the parent loop, not the turns
+burned inside a child. Denying `Task` is the only thing that actually stops it.
 
 ### 2. Soft budget — what the agent is *told* to spend
 
-The prompt hands the agent a per-area cap on `WebSearch` and `WebFetch` calls, plus a
-"land the plane" instruction. The skills in [`skills/`](skills/) say *where* to look; the
+The prompt hands the agent a per-area cap on `WebSearch` (5) and `WebFetch` (4) calls, plus
+a "land the plane" instruction. Fetches are capped tighter than searches because a fetch
+pulls a whole article into context — it is the token-heaviest thing the agent does, and the
+first dial to turn.
+
+Unlike layer 1, **these are advisory**. The agent reads them and generally complies, but
+nothing enforces them; only the turn cap, the timeout, and the tool denials are hard. The skills in [`skills/`](skills/) say *where* to look; the
 governor says *how much*. Where they conflict, the governor wins — that precedence is
 written into [`research-brief.md`](research-brief.md#run-budget-the-governor) too, so the
 agent sees it from both directions.
@@ -75,8 +88,8 @@ Everything tunable is in the `env:` block at the top of
 env:
   GOV_MODEL: claude-opus-5
   GOV_MAX_TURNS: '20'
-  GOV_SEARCHES_PER_AREA: '4'
-  GOV_FETCHES_PER_AREA: '6'
+  GOV_SEARCHES_PER_AREA: '5'
+  GOV_FETCHES_PER_AREA: '4'
   GOV_AREAS: 'ai-engineering healthcare'
 ```
 
@@ -85,7 +98,8 @@ env:
 1. Switch `GOV_MODEL` to `claude-sonnet-5` — by far the largest reduction in quota draw,
    and this task (search → scrape → summarize) sits well within Sonnet's range.
 2. Drop `GOV_FETCHES_PER_AREA` — page fetches are the most token-expensive calls, since
-   each one pulls a whole article into context.
+   each one pulls a whole article into context. Below 3 per area it gets hard to honor the
+   "primary sources" accuracy rule.
 3. Drop `GOV_MAX_TURNS`.
 4. Move the cron away from hours when Mai is likely to be using Claude Code herself —
    the two share one window, so an overlap is what makes a limit hit likely.
@@ -95,6 +109,23 @@ env:
 
 - `areas` — comma-separated slugs, to override the focus areas for one run (e.g. `healthcare`).
 - `force` — run even if this week already published.
+
+## Considered, not built
+
+Three ideas that resolve to a single change — **splitting the run into a cheap `gather`
+phase and an expensive `publish` phase, handing off through a committed candidates file**:
+
+- run candidate collection on a cheaper model, ranking and writing on a stronger one;
+- save intermediate research so a failed run resumes instead of restarting;
+- keep research from touching the weekly index, so an incomplete run cannot corrupt it.
+
+Deferred deliberately until `.governor/run-log.csv` has rows in it. Tuning six dials before
+seeing where the turns actually go is guesswork, and the split roughly doubles the
+workflow's complexity. The resume behavior is the piece most likely to be worth it.
+
+Its real cost, if built: the editorial call — *is this worth Mai's attention* — happens
+during gathering, on the cheaper model. The stronger model would only rank what the cheaper
+one chose to surface.
 
 ## What is *not* governed
 
