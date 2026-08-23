@@ -40,7 +40,12 @@ concurrency:
 env:
   # ── The governor's dials ────────────────────────────────────────────────
   GOV_MODEL: claude-opus-5     # heaviest draw on the Pro window; caps matter
-  GOV_MAX_TURNS: '20'          # a 4-area run took 20 turns; this is 2 areas
+  # Must be arithmetically consistent with the budget below: 2 areas x (5
+  # searches + 4 fetches) = 18 research turns, plus reading the brief/skills,
+  # writing 2 files, the README, and 3 commits. A clean run measured 27
+  # (run 32644519184). 35 leaves headroom and still trips on a runaway.
+  # NOTE: this is an assertion, not a brake — see GOVERNOR.md.
+  GOV_MAX_TURNS: '35'
   GOV_SEARCHES_PER_AREA: '5'   # WebSearch calls the agent may spend per area
   GOV_FETCHES_PER_AREA: '4'    # WebFetch (page scrape) calls per area — the
                                # token-heaviest call; tighten this dial first
@@ -187,12 +192,19 @@ jobs:
             ERRTEXT=$(echo "$RESULT" | jq -r '[(.result? // ""), (.error? // "" | tostring)] | join(" ")' 2>/dev/null || echo "")
 
             # Why did it stop? This is what tells Mai which dial to turn.
+            # Note the third branch: the action fails the STEP when num_turns
+            # exceeds --max-turns, even though Claude itself reports success and
+            # the research is committed. That is an overrun, not a failure.
             if [ "$SUBTYPE" = "error_max_turns" ]; then
-              NOTE="hit turn cap ($GOV_MAX_TURNS)"
+              NOTE="stopped at turn cap ($GOV_MAX_TURNS)"
             elif [ "$CONCLUSION" = "success" ]; then
               NOTE="ok"
+            elif [ "$SUBTYPE" = "success" ] && [ -n "$TURNS" ] && [ "$TURNS" -gt "$GOV_MAX_TURNS" ] 2>/dev/null; then
+              NOTE="overran turn cap ($TURNS/$GOV_MAX_TURNS) — research OK"
             elif echo "$ERRTEXT" | grep -qiE 'usage limit|limit reached'; then
               NOTE="hit Claude usage limit"
+            elif [ "$SUBTYPE" = "success" ]; then
+              NOTE="claude OK; action failed"
             else
               NOTE="failed (${SUBTYPE:-unknown})"
             fi
@@ -228,6 +240,14 @@ jobs:
             echo "| Cost (API-equivalent) | ${COST:-?} |"
             echo "| Duration | ${DURATION:-?}s |"
             echo "| Permission denials | ${DENIALS:-?} |"
+            case "$NOTE" in
+              *"research OK"*)
+                echo ""
+                echo "> ℹ️ **Claude finished the work and committed it** — the step went red only"
+                echo "> because it used more turns than \`GOV_MAX_TURNS\` allows. Check the commits:"
+                echo "> if the week published, raise the cap rather than treating this as a failure."
+                ;;
+            esac
             if [ "$NOTE" = "hit Claude usage limit" ]; then
               echo ""
               echo "> ⚠️ **The Pro 5-hour window was exhausted.** Anything already committed stands."

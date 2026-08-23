@@ -21,11 +21,25 @@ makes a run that *does* get cut short still leave something behind.
 
 | Control | Where | Effect |
 | --- | --- | --- |
-| `--max-turns` | `claude_args` | The agent is stopped after N turns, full stop. |
-| `timeout-minutes: 25` | job level | The runner kills the job on wall clock. |
+| `--max-turns` | `claude_args` | **Assertion, not a brake** — see below. |
+| `timeout-minutes: 25` | job level | The runner kills the job on wall clock. **The only true hard stop.** |
 | `concurrency: weekly-research` | workflow level | Two runs can never overlap and double-spend. |
 | `--disallowedTools Task` | `claude_args` | No subagents. |
 | Already-published guard | `Plan the run` step | Re-runs no-op if this week's files already exist. |
+
+**`--max-turns` does not stop the run.** Measured, not assumed: run 32644519184 was
+configured with `--max-turns 20`, ran to **27 turns**, reported `subtype: success`, and
+committed all its work — and *then* the action failed the step with *"Claude reported a
+successful result after 27 turns, exceeding the configured maximum of 20."* So the cap
+behaves as a post-hoc assertion by the action wrapper, not a mid-run brake. Two consequences:
+
+- Budget with **`timeout-minutes`**, which the runner genuinely enforces. `--max-turns` is a
+  tripwire that tells you afterwards that a run misbehaved.
+- Set it *above* what the search/fetch budget arithmetically implies, or every healthy run
+  goes red. 2 areas x (5 searches + 4 fetches) = 18 research turns, plus reading the brief
+  and skills, writing 2 files and the README, and 3 commits — about 27. A cap of 20 was
+  internally contradictory with the budget on the very same page, which is exactly what
+  happened.
 
 **Why `--disallowedTools Task` is not redundant.** `--allowedTools` is *additive* — it adds
 to Claude Code's built-in default tool set rather than replacing it
@@ -67,8 +81,18 @@ date,run_id,week,areas,model,conclusion,turns,cost_usd,duration_s,denials,note
 ```
 
 The `note` column is the useful one — it says *why* the run ended:
-`ok`, `hit turn cap (20)`, `hit Claude usage limit`, or `failed (…)`. That maps directly
-onto which dial to turn.
+
+| `note` | Meaning |
+| --- | --- |
+| `ok` | Clean run. |
+| `overran turn cap (N/M) — research OK` | Claude finished and committed; the action red-X'd on the assertion. Raise `GOV_MAX_TURNS`. |
+| `stopped at turn cap (M)` | The SDK actually halted it mid-run. Work may be incomplete. |
+| `hit Claude usage limit` | The Pro 5-hour window ran out. Tuesday's retry picks it up. |
+| `claude OK; action failed` | Research succeeded, the wrapper failed for some other reason — read the step log. |
+| `failed (…)` | Genuine failure. |
+
+**Watch `cost_usd`, not `turns`.** The 27-turn run cost $1.35 — turns are a poor proxy for
+spend, because a turn can be a one-line file write or a full article fetch.
 
 ## Durability: the run must survive being killed
 
@@ -87,11 +111,23 @@ Everything tunable is in the `env:` block at the top of
 ```yaml
 env:
   GOV_MODEL: claude-opus-5
-  GOV_MAX_TURNS: '20'
+  GOV_MAX_TURNS: '35'
   GOV_SEARCHES_PER_AREA: '5'
   GOV_FETCHES_PER_AREA: '4'
   GOV_AREAS: 'ai-engineering healthcare'
 ```
+
+### Measured baseline
+
+| Run | Scope | Turns | Cost | Duration | Outcome |
+| --- | --- | --- | --- | --- | --- |
+| First (pre-governor) | 4 areas | 20 | **$5.16** | ~10 min | Green, but committed nothing (5 permission denials) |
+| 32623239367 | 4 areas | — | — | 4m37s | Failed — Pro session limit reached |
+| 32644519184 | 2 areas | 27 | **$1.35** | 3m16s | Research committed; red X on the turn assertion |
+
+Roughly a **74% cost reduction**, driven mostly by the scope cut. `modelUsage` also shows
+Claude Code routing some internal work to Haiku 4.5 on its own — page-fetch summarization
+already runs on a cheap model without being asked.
 
 **If runs keep hitting the usage limit,** in order of leverage:
 
@@ -100,7 +136,8 @@ env:
 2. Drop `GOV_FETCHES_PER_AREA` — page fetches are the most token-expensive calls, since
    each one pulls a whole article into context. Below 3 per area it gets hard to honor the
    "primary sources" accuracy rule.
-3. Drop `GOV_MAX_TURNS`.
+3. Drop `timeout-minutes` — the only cap that actually interrupts a run mid-flight.
+   Lowering `GOV_MAX_TURNS` does *not* reduce spend; it just red-X's the job afterwards.
 4. Move the cron away from hours when Mai is likely to be using Claude Code herself —
    the two share one window, so an overlap is what makes a limit hit likely.
 5. Cut `GOV_AREAS` to one area. Last resort — it halves the output, not just the cost.
