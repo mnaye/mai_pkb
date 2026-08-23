@@ -10,13 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write      # so Claude can commit its results
+      id-token: write      # the action always requests an OIDC token in agent mode
     steps:
       - uses: actions/checkout@v4
 
       - uses: anthropics/claude-code-action@v1
         with:
-          # Use the workflow's built-in token so the action skips the OIDC /
-          # GitHub-App auth path (we're not installing the App).
           github_token: ${{ secrets.GITHUB_TOKEN }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: "Follow the instructions in research-brief.md"
