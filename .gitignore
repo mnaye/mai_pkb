@@ -1,0 +1,46 @@
+# === Secrets & credentials (never commit these!) ===
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.*
+*secret*
+*credential*
+*_token
+*.token
+anthropic_api_key*
+.anthropic
+.claude/settings.local.json
+
+# === OS cruft ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Editor / IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === Python (in case you add scripts) ===
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# === Node (in case you add tooling) ===
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# === Logs & temp ===
+*.log
+tmp/
+.cache/
