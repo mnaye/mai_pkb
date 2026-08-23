@@ -132,9 +132,10 @@ flowchart TD
 ### One-time setup
 
 1. Push this repo to GitHub.
-2. Add your Anthropic API key as a repo secret named **`ANTHROPIC_API_KEY`** (Settings → Secrets and variables → Actions).
-3. Run **`/install-github-app`** from Claude Code (installs the GitHub App; needs repo admin).
-4. Open the **Actions** tab → **Weekly Research** → **Run workflow** to test without waiting for Monday.
+2. Generate a Claude Code token: run **`claude setup-token`** locally (uses your Claude Pro/Max subscription — no API billing).
+3. Add it as a repo secret named **`CLAUDE_CODE_OAUTH_TOKEN`** (Settings → Secrets and variables → Actions).
+4. Run **`/install-github-app`** from Claude Code (installs the GitHub App; needs repo admin).
+5. Open the **Actions** tab → **Weekly Research** → **Run workflow** to test without waiting for Monday.
 
 ### Two decisions to make
 
