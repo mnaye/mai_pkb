@@ -12,8 +12,8 @@ Conventions for the weekly research agent and for anyone (human or Claude) editi
 ## Files & naming
 
 - Weekly topic files live under their focus-area folder: `{area}/{year}-W{week}.md` (ISO week, e.g. `ai-engineering/2026-W33.md`).
-- Focus-area folders: `sea-food-culture/`, `ai-engineering/`, `data-science/`, `healthcare/`.
-- Keep the `README.md` **Weekly Log** table current — newest week at the top.
+- Focus-area folders: `ai-engineering/`, `healthcare/`.
+- Keep the `README.md` **This Week** section current — it shows only the latest week; the dated files are the archive.
 
 ## Accuracy
 
@@ -22,8 +22,9 @@ Conventions for the weekly research agent and for anyone (human or Claude) editi
 
 ## Cadence
 
-- Updated **weekly** (Mondays 09:00 UTC via GitHub Actions).
-- Publish the **top 3 developments overall** across the four focus areas each week.
+- Updated **weekly** (Mondays 09:00 UTC via GitHub Actions, with a Tuesday retry).
+- Each run is budget-bounded — see [`GOVERNOR.md`](GOVERNOR.md).
+- Publish the **top 3 developments overall** across the two focus areas each week.
 
 ## Attribution
 

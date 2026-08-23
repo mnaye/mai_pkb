@@ -1,26 +1,246 @@
 name: Weekly Research
 
+# ──────────────────────────────────────────────────────────────────────────
+# AGENTIC WORKFLOW GOVERNOR
+#
+# This workflow spends Mai's Claude Pro 5-hour budget — the same pool as her
+# interactive sessions. Every knob that bounds that spend lives in the `env:`
+# block below. Tune numbers there; the logic underneath shouldn't need edits.
+#
+# Four layers of control:
+#   1. HARD CAPS      — --max-turns, timeout-minutes, concurrency
+#   2. SOFT BUDGET    — search/fetch budget handed to the agent in the prompt,
+#                       over a deliberately narrow scope (two focus areas)
+#   3. DURABILITY     — agent commits after each area, so a killed run still
+#                       leaves published work behind
+#   4. ACCOUNTING     — every run appends turns/cost/duration to
+#                       .governor/run-log.csv and the job summary
+# ──────────────────────────────────────────────────────────────────────────
+
 on:
   schedule:
-    - cron: '0 9 * * 1'   # Mondays 09:00 UTC
-  workflow_dispatch: {}    # manual "Run workflow" button for testing
+    - cron: '0 9 * * 1'   # Mondays 09:00 UTC — the real run
+    - cron: '0 9 * * 2'   # Tuesdays 09:00 UTC — retry; no-ops if Monday landed
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Run even if this week already published'
+        type: boolean
+        default: false
+      areas:
+        description: 'Override the focus areas (comma-separated folder slugs)'
+        type: string
+        default: ''
+
+# Never let two research runs overlap and double-spend the budget.
+concurrency:
+  group: weekly-research
+  cancel-in-progress: false
+
+env:
+  # ── The governor's dials ────────────────────────────────────────────────
+  GOV_MODEL: claude-opus-5     # heaviest draw on the Pro window; caps matter
+  GOV_MAX_TURNS: '20'          # a 4-area run took 20 turns; this is 2 areas
+  GOV_SEARCHES_PER_AREA: '4'   # WebSearch calls the agent may spend per area
+  GOV_FETCHES_PER_AREA: '6'    # WebFetch (page scrape) calls per area
+  GOV_AREAS: 'ai-engineering healthcare'   # every run covers exactly these
 
 jobs:
   research:
     runs-on: ubuntu-latest
+    timeout-minutes: 25        # hard wall-clock stop; the runner kills the job
     permissions:
-      contents: write      # so Claude can commit its results
-      id-token: write      # the action always requests an OIDC token in agent mode
+      contents: write          # so Claude (and the run log) can commit
+      id-token: write          # the action always requests an OIDC token
     steps:
       - uses: actions/checkout@v4
 
+      # ── Layer 1+2: decide the scope of THIS run before spending anything ──
+      - name: Plan the run
+        id: plan
+        env:
+          # Never interpolate dispatch inputs straight into shell.
+          INPUT_AREAS: ${{ inputs.areas }}
+          INPUT_FORCE: ${{ inputs.force }}
+        run: |
+          set -euo pipefail
+
+          YEAR=$(date -u +%G)          # ISO year (pairs with %V, not %Y)
+          WEEK=$(date -u +%V)          # ISO week number
+
+          SLUGS="$GOV_AREAS"
+          if [ -n "${INPUT_AREAS:-}" ]; then
+            SLUGS=$(echo "$INPUT_AREAS" | tr ',' ' ')
+            echo "Areas overridden by hand: $SLUGS"
+          fi
+
+          # Human-readable names + the dated file each area writes this week.
+          NAMES=""; FILES=""; EXISTING=""
+          for s in $SLUGS; do
+            case "$s" in
+              ai-engineering) n="AI Engineering" ;;
+              healthcare)     n="Healthcare Trends" ;;
+              *)              n="$s" ;;
+            esac
+            f="$s/$YEAR-W$WEEK.md"
+            NAMES="${NAMES:+$NAMES, }$n ($s/)"
+            FILES="${FILES:+$FILES, }$f"
+            if [ -f "$f" ]; then EXISTING="${EXISTING:+$EXISTING }$f"; fi
+          done
+
+          # Idempotency guard: the Tuesday retry must no-op if Monday landed.
+          SKIP=false
+          if [ -n "$EXISTING" ] && [ "${INPUT_FORCE:-}" != "true" ]; then
+            SKIP=true
+            echo "::notice::Already published this week ($EXISTING) — skipping. Re-run with force=true to override."
+          fi
+
+          {
+            echo "year=$YEAR"
+            echo "week=$WEEK"
+            echo "slugs=$SLUGS"
+            echo "names=$NAMES"
+            echo "files=$FILES"
+            echo "skip=$SKIP"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "### 🧭 Run plan"
+            echo ""
+            echo "| | |"
+            echo "| --- | --- |"
+            echo "| ISO week | \`$YEAR-W$WEEK\` |"
+            echo "| Areas | $NAMES |"
+            echo "| Model | \`$GOV_MODEL\` |"
+            echo "| Turn cap | $GOV_MAX_TURNS |"
+            echo "| Budget per area | $GOV_SEARCHES_PER_AREA searches / $GOV_FETCHES_PER_AREA fetches |"
+            echo "| Skipped | $SKIP |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - uses: anthropics/claude-code-action@v1
+        id: claude
+        if: steps.plan.outputs.skip != 'true'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          # Show the full transcript for this diagnostic run (turn off once stable).
-          show_full_output: true
-          prompt: "Follow the instructions in research-brief.md"
-          # Allow Bash broadly: the agent needs git plus helpers (date for the ISO
-          # week, mkdir, etc.) and compound commands, which Bash(git:*) blocked.
-          claude_args: "--allowedTools WebSearch,WebFetch,Read,Write,Edit,Bash"
+          # Claude's own report in the job summary, next to the governor's numbers.
+          display_report: true
+          claude_args: >-
+            --model ${{ env.GOV_MODEL }}
+            --max-turns ${{ env.GOV_MAX_TURNS }}
+            --allowedTools WebSearch,WebFetch,Read,Write,Edit,Bash
+          prompt: |
+            Follow the instructions in research-brief.md.
+
+            RUN GOVERNOR — these constraints override research-brief.md and the
+            skills wherever they conflict. Staying inside the budget matters
+            more than covering one more source.
+
+            - Focus areas: ${{ steps.plan.outputs.names }}.
+              These are the only two areas this knowledge base tracks.
+              Research nothing outside them.
+            - ISO week: ${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}.
+              Use exactly this — do not recompute the week yourself.
+            - Write to: ${{ steps.plan.outputs.files }}
+            - Pick the top 3 developments across ONLY these areas.
+            - Budget per area: at most ${{ env.GOV_SEARCHES_PER_AREA }} WebSearch
+              calls and ${{ env.GOV_FETCHES_PER_AREA }} WebFetch calls. When the
+              budget is spent, stop researching and write up what you have.
+              Do not re-search to marginally improve an item you already have.
+            - Turn cap: ${{ env.GOV_MAX_TURNS }}. Land the plane well before it.
+            - COMMIT AFTER EACH AREA, not once at the end: finish an area's file,
+              commit it, then move on. If this run is cut short mid-way, the
+              committed work must still be useful.
+            - Update README.md's "This Week" section last, then commit again.
+              Use "—" for an area that produced nothing worth publishing.
+
+      # ── Layer 4: what did this run actually cost? ────────────────────────
+      - name: Account for the run
+        id: account
+        if: always() && steps.plan.outputs.skip != 'true'
+        env:
+          RUN_SLUGS: ${{ steps.plan.outputs.slugs }}
+          RUN_WEEK: ${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}
+          RUN_ID: ${{ github.run_id }}
+          EXEC_FILE: ${{ steps.claude.outputs.execution_file }}
+          CONCLUSION: ${{ steps.claude.outputs.conclusion || job.status }}
+        run: |
+          set -uo pipefail
+
+          TURNS=""; COST=""; DURATION=""; DENIALS=""; SUBTYPE=""; NOTE=""
+
+          if [ -n "${EXEC_FILE:-}" ] && [ -f "$EXEC_FILE" ]; then
+            RESULT=$(jq -c -s '[.. | objects | select(.type == "result")] | last // {}' "$EXEC_FILE" 2>/dev/null || echo '{}')
+            TURNS=$(echo "$RESULT"   | jq -r '.num_turns // ""')
+            COST=$(echo "$RESULT"    | jq -r '.total_cost_usd // ""')
+            DURATION=$(echo "$RESULT"| jq -r 'if .duration_ms then (.duration_ms / 1000 | floor) else "" end')
+            SUBTYPE=$(echo "$RESULT" | jq -r '.subtype // ""')
+            DENIALS=$(echo "$RESULT" | jq -r 'if (.permission_denials | type) == "array" then (.permission_denials | length) else (.permission_denials_count // "") end')
+            # Only the result object's own message — NOT the whole transcript, which
+            # is full of scraped articles that happily mention "rate limit".
+            ERRTEXT=$(echo "$RESULT" | jq -r '[(.result? // ""), (.error? // "" | tostring)] | join(" ")' 2>/dev/null || echo "")
+
+            # Why did it stop? This is what tells Mai which dial to turn.
+            if [ "$SUBTYPE" = "error_max_turns" ]; then
+              NOTE="hit turn cap ($GOV_MAX_TURNS)"
+            elif [ "$CONCLUSION" = "success" ]; then
+              NOTE="ok"
+            elif echo "$ERRTEXT" | grep -qiE 'usage limit|limit reached'; then
+              NOTE="hit Claude usage limit"
+            else
+              NOTE="failed (${SUBTYPE:-unknown})"
+            fi
+          else
+            NOTE="no execution file (${CONCLUSION})"
+          fi
+
+          # Commas would corrupt the CSV row.
+          NOTE=$(echo "$NOTE" | tr ',' ';')
+
+          echo "note=$NOTE" >> "$GITHUB_OUTPUT"
+
+          mkdir -p .governor
+          if [ ! -f .governor/run-log.csv ]; then
+            echo "date,run_id,week,areas,model,conclusion,turns,cost_usd,duration_s,denials,note" > .governor/run-log.csv
+          fi
+          printf '%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n' \
+            "$(date -u +%Y-%m-%d)" \
+            "$RUN_ID" \
+            "$RUN_WEEK" \
+            "$(echo "$RUN_SLUGS" | tr ' ' '+')" \
+            "$GOV_MODEL" "$CONCLUSION" "$TURNS" "$COST" "$DURATION" "$DENIALS" "$NOTE" \
+            >> .governor/run-log.csv
+
+          {
+            echo ""
+            echo "### 💸 Run accounting"
+            echo ""
+            echo "| Metric | Value |"
+            echo "| --- | --- |"
+            echo "| Conclusion | \`$CONCLUSION\` — $NOTE |"
+            echo "| Turns | ${TURNS:-?} / $GOV_MAX_TURNS |"
+            echo "| Cost (API-equivalent) | ${COST:-?} |"
+            echo "| Duration | ${DURATION:-?}s |"
+            echo "| Permission denials | ${DENIALS:-?} |"
+            if [ "$NOTE" = "hit Claude usage limit" ]; then
+              echo ""
+              echo "> ⚠️ **The Pro 5-hour window was exhausted.** Anything already committed stands."
+              echo "> Tuesday's scheduled retry will finish the week; it no-ops if this run already published."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit the run log
+        if: always() && steps.plan.outputs.skip != 'true'
+        env:
+          RUN_ID: ${{ github.run_id }}
+          RUN_NOTE: ${{ steps.account.outputs.note }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .governor/run-log.csv
+          git diff --staged --quiet && exit 0
+          git commit -m "governor: log run $RUN_ID ($RUN_NOTE)"
+          git pull --rebase --autostash origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
