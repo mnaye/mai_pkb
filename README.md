@@ -16,12 +16,12 @@
 
 ## 🗓️ This Week
 
-> **This week's research brief:** _(first run pending — Claude writes a 2–3 sentence overview of the week's top findings here.)_
+> **This week's research brief (2026-W34):** The week's top development was regulatory — on 18 August the FDA opened public comment on how to regulate **generative-AI-enabled medical devices**, the first real attempt to fit LLM-based products into a device framework designed for locked algorithms, with a nomination for a new FDA Commissioner landing the next day. In AI engineering, the fastest-rising GitHub repos weren't models or harnesses but **agent memory and context infrastructure** — what an agent retains between sessions is now the bottleneck people are building against. Rounding out the three: **Amylyx's Phase 3 avexitide readout** (55% reduction in hypoglycemic events, p=0.000003) in an indication with no approved therapy.
 
 | Focus Area | Summary | File |
 | --- | --- | --- |
-| 🤖 AI Engineering | _(first run pending)_ | — |
-| 🏥 Healthcare | _(first run pending)_ | — |
+| 🤖 AI Engineering | Agent memory and context stores topped GitHub Trending — OpenViking (32.3k ★, +3.4k this week) and ai-memory (+2.6k) both target what agents forget between sessions. | [2026-W34](ai-engineering/2026-W34.md) |
+| 🏥 Healthcare | FDA opened comment (due 19 Oct) on a risk-tiered framework for generative-AI medical devices; Amylyx posted a clean Phase 3 win for avexitide in post-bariatric hypoglycemia. | [2026-W34](healthcare/2026-W34.md) |
 
 *(Claude replaces this section each week with the latest update.)*
 
