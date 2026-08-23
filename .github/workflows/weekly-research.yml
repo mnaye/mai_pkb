@@ -18,5 +18,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Show the full transcript for this diagnostic run (turn off once stable).
+          show_full_output: true
           prompt: "Follow the instructions in research-brief.md"
-          claude_args: "--allowedTools WebSearch,WebFetch,Read,Write,Edit,Bash(git:*)"
+          # Allow Bash broadly: the agent needs git plus helpers (date for the ISO
+          # week, mkdir, etc.) and compound commands, which Bash(git:*) blocked.
+          claude_args: "--allowedTools WebSearch,WebFetch,Read,Write,Edit,Bash"
