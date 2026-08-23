@@ -35,7 +35,12 @@ Each weekly file should contain:
 
 ## Update the index
 
-After writing the topic files, **replace** the contents of `README.md`'s **This Week** table so it reflects only the current week. For each focus area, link to this week's file if it has one, or show `—` if that area wasn't in this week's top 3. Do not keep prior weeks in the table — the dated files under each folder are the archive.
+After writing the topic files, **replace** the contents of `README.md`'s **This Week** section (near the top of the README) so it reflects only the current week:
+
+1. **This week's research brief** — replace the blockquote with a fresh **2–3 sentence overview** of the week's top findings across the areas covered (the through-line / why it matters).
+2. **The table** — for each focus area, link to this week's file if it has one, or show `—` if that area wasn't in this week's top 3.
+
+Do not keep prior weeks in this section — the dated files under each folder are the archive.
 
 ## Commit
 

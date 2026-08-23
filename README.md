@@ -14,6 +14,21 @@
 
 ---
 
+## 🗓️ This Week
+
+> **This week's research brief:** _(first run pending — Claude writes a 2–3 sentence overview of the week's top findings here.)_
+
+| Focus Area | This week's file |
+| --- | --- |
+| 🍜 Southeast Asian Food & Culture | _(first run pending)_ |
+| 🤖 AI Engineering | _(first run pending)_ |
+| 📊 Data Science | _(first run pending)_ |
+| 🏥 Healthcare | _(first run pending)_ |
+
+*(Claude replaces this section each week with the latest update.)*
+
+---
+
 ## 🎯 Focus Areas
 
 | Area | What I'm tracking |
@@ -125,19 +140,6 @@ flowchart TD
 
 - **Auto-commit vs. review:** the workflow commits straight to `main`. To sanity-check first, have the brief open a **pull request** instead — then your weekly ritual is merging one PR.
 - **Topic weighting:** the brief currently weights all four areas evenly (top 3 overall). Adjust `research-brief.md` to favor specific areas or sources.
-
----
-
-## 🗓️ This Week
-
-*(Claude replaces this section each week with the latest update.)*
-
-| Focus Area | This week's file |
-| --- | --- |
-| 🍜 Southeast Asian Food & Culture | _(first run pending)_ |
-| 🤖 AI Engineering | _(first run pending)_ |
-| 📊 Data Science | _(first run pending)_ |
-| 🏥 Healthcare | _(first run pending)_ |
 
 ---
 
