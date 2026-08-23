@@ -15,6 +15,9 @@ jobs:
 
       - uses: anthropics/claude-code-action@v1
         with:
+          # Use the workflow's built-in token so the action skips the OIDC /
+          # GitHub-App auth path (we're not installing the App).
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: "Follow the instructions in research-brief.md"
           claude_args: "--allowedTools WebSearch,WebFetch,Read,Write,Edit,Bash(git:*)"
