@@ -16,12 +16,12 @@
 
 ## 🗓️ This Week
 
-> **This week's research brief (2026-W34):** The week's top development was regulatory — on 18 August the FDA opened public comment on how to regulate **generative-AI-enabled medical devices**, the first real attempt to fit LLM-based products into a device framework designed for locked algorithms, with a nomination for a new FDA Commissioner landing the next day. In AI engineering, the fastest-rising GitHub repos weren't models or harnesses but **agent memory and context infrastructure** — what an agent retains between sessions is now the bottleneck people are building against. Rounding out the three: **Amylyx's Phase 3 avexitide readout** (55% reduction in hypoglycemic events, p=0.000003) in an indication with no approved therapy.
+> **This week's research brief (2026-W35):** The week's biggest development was clinical — on 19 August, Merck and Moderna reported that **intismeran autogene plus KEYTRUDA met both endpoints in Phase 3** (INTerpath-001, n=1,137, resected stage IIB–IV melanoma): the first positive Phase 3 for an individualized mRNA neoantigen therapy, and the first to beat KEYTRUDA alone in adjuvant melanoma. In AI engineering, the through-line shifted from what an agent *remembers* to what it can be *extended with*: DeepSeek's MIT-licensed **deepseek-harness** ("Everything is a Plugin", 190.2k ★) trended alongside its underlying framework **cordis** (+2,725) and two vendor plugin registries from Anthropic and Cursor. Whether those registries converge on MCP or fragment into per-harness extension APIs is the thing to watch next.
 
 | Focus Area | Summary | File |
 | --- | --- | --- |
-| 🤖 AI Engineering | Agent memory and context stores topped GitHub Trending — OpenViking (32.3k ★, +3.4k this week) and ai-memory (+2.6k) both target what agents forget between sessions. | [2026-W34](ai-engineering/2026-W34.md) |
-| 🏥 Healthcare | FDA opened comment (due 19 Oct) on a risk-tiered framework for generative-AI medical devices; Amylyx posted a clean Phase 3 win for avexitide in post-bariatric hypoglycemia. | [2026-W34](healthcare/2026-W34.md) |
+| 🤖 AI Engineering | The agent harness became a plugin platform — deepseek-harness (190.2k ★, MIT, dev preview), cordis (+2,725) and the Anthropic/Cursor plugin registries all trended together. | [2026-W35](ai-engineering/2026-W35.md) |
+| 🏥 Healthcare | Merck/Moderna's individualized mRNA therapy met RFS and DMFS endpoints in Phase 3 melanoma (HRs undisclosed); health IT spent the week consolidating — Hinge Health–Cylinder ($105M), iRhythm–VitalConnect, Kyndryl, Providence Equity. | [2026-W35](healthcare/2026-W35.md) |
 
 *(Claude replaces this section each week with the latest update.)*
 
