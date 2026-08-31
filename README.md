@@ -16,12 +16,12 @@
 
 ## 🗓️ This Week
 
-> **This week's research brief (2026-W35):** The week's biggest development was clinical — on 19 August, Merck and Moderna reported that **intismeran autogene plus KEYTRUDA met both endpoints in Phase 3** (INTerpath-001, n=1,137, resected stage IIB–IV melanoma): the first positive Phase 3 for an individualized mRNA neoantigen therapy, and the first to beat KEYTRUDA alone in adjuvant melanoma. In AI engineering, the through-line shifted from what an agent *remembers* to what it can be *extended with*: DeepSeek's MIT-licensed **deepseek-harness** ("Everything is a Plugin", 190.2k ★) trended alongside its underlying framework **cordis** (+2,725) and two vendor plugin registries from Anthropic and Cursor. Whether those registries converge on MCP or fragment into per-harness extension APIs is the thing to watch next.
+> **This week's research brief (2026-W36):** Two weeks ago the agent story was memory, last week it was plugins; this week it became **skills** — `tt-a1i/archify` added **+18,103 stars in seven days** by shipping one narrow, verifiable capability (checkable architecture diagrams) that any harness can load, while `apache/maka` entered ASF incubation arguing the durable append-only **runtime** is what deserves standardizing instead. In healthcare it was an enforcement week: Humana-owned Villages Health settled Medicare Advantage upcoding for **$541.5M** after self-disclosing, with roughly half its 2024 patient codes undocumented, and two state AGs opened suits against PBMs and Optum. The through-line worth Mai's attention is **verifiability** — agents that prove what they did, providers that must prove what they coded, and Pew's finding that **46% of adults don't know AI has already touched their care** while **73%** want to be told.
 
 | Focus Area | Summary | File |
 | --- | --- | --- |
-| 🤖 AI Engineering | The agent harness became a plugin platform — deepseek-harness (190.2k ★, MIT, dev preview), cordis (+2,725) and the Anthropic/Cursor plugin registries all trended together. | [2026-W35](ai-engineering/2026-W35.md) |
-| 🏥 Healthcare | Merck/Moderna's individualized mRNA therapy met RFS and DMFS endpoints in Phase 3 melanoma (HRs undisclosed); health IT spent the week consolidating — Hinge Health–Cylinder ($105M), iRhythm–VitalConnect, Kyndryl, Providence Equity. | [2026-W35](healthcare/2026-W35.md) |
+| 🤖 AI Engineering | The packaged agent *skill* became the unit of distribution — archify (37.7k ★, +18.1k this week) and scientific-agent-skills (+4.3k); Apache Maka entered incubation with a local-first, append-only agent runtime. | [2026-W36](ai-engineering/2026-W36.md) |
+| 🏥 Healthcare | Enforcement, not funding: Villages Health's **$541.5M** self-disclosed MA upcoding settlement, new state-AG suits against Prime/Express Scripts and Optum, and Pew data showing a widening AI-disclosure consent gap. | [2026-W36](healthcare/2026-W36.md) |
 
 *(Claude replaces this section each week with the latest update.)*
 
