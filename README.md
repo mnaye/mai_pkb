@@ -23,7 +23,12 @@
 | 🤖 AI Engineering | **DeepSeek-V4.1-Flash** (10 Sep, MIT, 552B MoE, 1M context) takes over V4-Pro's API traffic at Flash rates from the 14th; **OpenAI's official Codex plugin catalog** gives the packaged-skill unit a manifest format, while trending is now mostly skill bundles (`archify` at **61.8k ★**, +10.1k for a third straight week). | [2026-W38](ai-engineering/2026-W38.md) |
 | 🏥 Healthcare | **ARPA-H's $62.7M ADVOCATE program** bets on an FDA-authorized autonomous agent for heart failure (UpDoc $9M, Tempus $9.5M, Atman Health); **AstraZeneca's camizestrant missed its primary endpoints** in pivotal SERENA-4, and **Scholar Rock** won the first SMA approval aimed at muscle loss. | [2026-W38](healthcare/2026-W38.md) |
 
-*(Claude replaces this section each week with the latest update.)*
+**📁 Previous weeks:** every brief is archived as a dated file (`{year}-W{week}.md`) inside its focus-area directory — browse either folder to read back through the weeks:
+
+- [`ai-engineering/`](ai-engineering/) — all AI Engineering briefs
+- [`healthcare/`](healthcare/) — all Healthcare briefs
+
+*(Claude replaces the brief and table above each week; this archive pointer stays.)*
 
 ---
 
@@ -74,72 +79,80 @@ Each week, Claude drops a dated file (`{area}/{year}-W{week}.md`) for the top it
 A scheduled research agent — no laptop cron or server needed. GitHub hosts everything.
 
 ```mermaid
-flowchart TD
-    subgraph TRIGGER["⏰ Trigger — GitHub Actions"]
-        CRON["Weekly cron<br/>Mondays 09:00 UTC"]
-        RETRY["Retry cron<br/>Tuesdays — no-ops if Monday landed"]
-        MANUAL["Run workflow button<br/>manual test"]
+%%{init: {'theme':'base','themeVariables':{'fontFamily':'ui-sans-serif, system-ui, -apple-system, sans-serif','fontSize':'13px','lineColor':'#94a3b8'},'flowchart':{'curve':'basis','nodeSpacing':40,'rankSpacing':70,'padding':14}}}%%
+flowchart LR
+    subgraph S1[" ⏰ TRIGGER "]
+        direction TB
+        CRON["🗓️ Weekly cron<br/>Mondays 09:00 UTC"]
+        RETRY["🔁 Retry cron<br/>Tuesdays · no-ops if Monday landed"]
+        MANUAL["👆 Run workflow<br/>manual dispatch"]
     end
 
-    subgraph GOV["🎛️ Governor — bounds the spend"]
-        PLAN["Plan the run<br/>scope · already-published guard"]
-        CAPS["Hard caps<br/>max-turns · timeout · concurrency"]
-        LOG["Accounting<br/>.governor/run-log.csv"]
+    subgraph S2[" 🎛️ GOVERNOR "]
+        direction TB
+        PLAN["📋 Plan the run<br/>ISO week · scope<br/>skip if already published"]
+        CAPS["🚧 Hard caps<br/>max-turns · timeout<br/>concurrency · budget"]
     end
 
-    subgraph AGENT["🤖 Agent — claude-code-action headless"]
-        CLAUDE["Claude Code<br/>WebSearch · WebFetch · Read · Write · git"]
+    subgraph S3[" 🤖 AGENT "]
+        direction TB
+        CLAUDE["Claude Code · headless<br/>claude-code-action<br/>WebSearch · WebFetch · Read · Write · git"]
     end
 
-    subgraph BRAIN["🧠 The Brain — instructions in the repo"]
-        BRIEF["research-brief.md<br/>what + output format"]
-        CONV["CLAUDE.md<br/>conventions"]
-        SKILLS["skills/*.md<br/>per-area source guides"]
+    subgraph S4[" 📚 OUTPUT "]
+        direction TB
+        FILES["📄 Dated briefs<br/>area/YYYY-Www.md"]
+        RDME["📌 README<br/>This Week table"]
     end
 
-    WEB(["🌐 Web<br/>GitHub · arXiv · FDA/CMS/HHS · health &amp; industry media"])
+    BRAIN[["🧠 THE BRAIN<br/>research-brief.md · CLAUDE.md · skills/*.md"]]
+    WEB{{"🌐 WEB SOURCES<br/>GitHub · arXiv · FDA / CMS / HHS · health media"}}
+    REPO[("✅ git repo<br/>commit after each area")]
+    LOG[("📊 run-log.csv<br/>turns · cost · outcome")]
 
-    subgraph OUTPUT["📚 Output — this git repo"]
-        FILES["Dated topic files<br/>area/YYYY-Www.md"]
-        README["README — This Week table"]
-    end
-
-    CRON --> PLAN
-    RETRY --> PLAN
+    CRON   --> PLAN
+    RETRY  --> PLAN
     MANUAL --> PLAN
-    PLAN --> CAPS
-    CAPS --> CLAUDE
-    BRIEF -.reads.-> CLAUDE
-    CONV -.reads.-> CLAUDE
-    SKILLS -.reads.-> CLAUDE
-    CLAUDE -->|"search &amp; scrape"| WEB
-    WEB -->|"top 3 findings"| CLAUDE
-    CLAUDE -->|"writes"| FILES
-    CLAUDE -->|"updates"| README
-    FILES --> COMMIT["✅ git commit<br/>after each area, not just at the end"]
-    README --> COMMIT
-    CLAUDE -.turns · cost · outcome.-> LOG
+    PLAN   -->|"➊ scope + ISO week"| CAPS
+    CAPS   -->|"➋ launch under caps"| CLAUDE
+    BRAIN  -.->|"➌ loads instructions"| CLAUDE
+    CLAUDE <-->|"➍ search · scrape"| WEB
+    CLAUDE -->|"➎ writes"| FILES
+    CLAUDE -->|"➏ refreshes"| RDME
+    FILES  --> REPO
+    RDME   --> REPO
+    CLAUDE -.->|"➐ accounting"| LOG
 
-    classDef trig fill:#fef3c7,stroke:#f59e0b,stroke-width:1px,color:#78350f;
-    classDef agent fill:#ede9fe,stroke:#8b5cf6,stroke-width:1px,color:#4c1d95;
-    classDef brain fill:#e0f2fe,stroke:#0ea5e9,stroke-width:1px,color:#075985;
-    classDef web fill:#dcfce7,stroke:#22c55e,stroke-width:1px,color:#14532d;
-    classDef out fill:#ffe4e6,stroke:#f43f5e,stroke-width:1px,color:#881337;
-    classDef gov fill:#f1f5f9,stroke:#64748b,stroke-width:1px,color:#1e293b;
+    classDef trig  fill:#fef3c7,stroke:#f59e0b,stroke-width:1.5px,color:#78350f;
+    classDef gov   fill:#e2e8f0,stroke:#64748b,stroke-width:1.5px,color:#1e293b;
+    classDef agent fill:#ede9fe,stroke:#8b5cf6,stroke-width:1.5px,color:#4c1d95;
+    classDef brain fill:#e0f2fe,stroke:#0ea5e9,stroke-width:1.5px,color:#075985;
+    classDef web   fill:#dcfce7,stroke:#22c55e,stroke-width:1.5px,color:#14532d;
+    classDef out   fill:#ffe4e6,stroke:#f43f5e,stroke-width:1.5px,color:#881337;
+    classDef store fill:#f1f5f9,stroke:#475569,stroke-width:1.5px,color:#0f172a;
 
     class CRON,RETRY,MANUAL trig;
-    class PLAN,CAPS,LOG gov;
+    class PLAN,CAPS gov;
     class CLAUDE agent;
-    class BRIEF,CONV,SKILLS brain;
+    class BRAIN brain;
     class WEB web;
-    class FILES,README,COMMIT out;
+    class FILES,RDME out;
+    class REPO,LOG store;
+
+    style S1 fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#78350f;
+    style S2 fill:#f8fafc,stroke:#64748b,stroke-width:2px,color:#1e293b;
+    style S3 fill:#faf5ff,stroke:#8b5cf6,stroke-width:2px,color:#4c1d95;
+    style S4 fill:#fff1f2,stroke:#f43f5e,stroke-width:2px,color:#881337;
 ```
 
-1. **`.github/workflows/weekly-research.yml`** runs on a cron (Mondays 09:00 UTC), with a Tuesday retry and a manual **Run workflow** button.
-2. The **Plan the run** step resolves this week's scope and dated filenames, and skips the whole run if the week already published.
-3. It launches **`anthropics/claude-code-action`** headless, handing Claude the areas, the ISO week, and a search/fetch budget — under a hard turn cap and job timeout.
-4. Claude searches the web, writes each topic file, **commits after each area**, then updates this README's *This Week* section.
-5. The **accounting** step records turns, cost, and why the run ended in [`.governor/run-log.csv`](.governor/run-log.csv) and the job summary.
+**⏰ Trigger** — [`.github/workflows/weekly-research.yml`](.github/workflows/weekly-research.yml) fires on a cron (Mondays 09:00 UTC), with a Tuesday retry and a manual **Run workflow** button.
+
+➊ **Plan the run** — resolves this week's ISO week, scope, and dated filenames, and skips the whole run if the week already published.<br/>
+➋ **Launch under caps** — starts **`anthropics/claude-code-action`** headless with the areas, the ISO week, and a per-area search/fetch budget, bounded by a hard turn cap and job timeout.<br/>
+➌ **Load the Brain** — Claude reads [`research-brief.md`](research-brief.md), [`CLAUDE.md`](CLAUDE.md), and the per-area guides in [`skills/`](skills/).<br/>
+➍ **Research** — WebSearch and WebFetch against the sources each skill prioritizes, until the budget is spent.<br/>
+➎➏ **Write** — the dated brief for each area, then this README's *This Week* table — **committing after each area**, so a run cut short still publishes what it finished.<br/>
+➐ **Accounting** — records turns, cost, and why the run ended in [`.governor/run-log.csv`](.governor/run-log.csv) and the job summary.
 
 See [GOVERNOR.md](GOVERNOR.md) for the dials and how to turn them.
 
