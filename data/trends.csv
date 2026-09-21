@@ -29,3 +29,4 @@ week,date,area,topic,headline,url
 2026-W38,2026-09-11,healthcare,fda,"Scholar Rock wins first SMA approval targeting muscle loss",https://www.statnews.com/
 2026-W39,2026-09-21,ai-engineering,skills-tooling,"cloudflare/security-audit-skill surges +14.9k on adversarial verification",https://github.com/cloudflare/security-audit-skill
 2026-W39,2026-09-21,ai-engineering,infra,"colibri runs 2.8T-param MoE models off NVMe in pure C",https://github.com/JustVugg/colibri
+2026-W39,2026-09-17,healthcare,fda,"FDA denies 510(k) exemption for radiology CAD and triage AI",https://thefederalregister.org/documents/2026-19074/medical-devices-exemption-from-premarket-notification-radiology-computer-aided-detection-and-or-diagnosis-devices-and-co
