@@ -33,24 +33,24 @@
 
 <table>
 <tr><th align="right">#</th><th align="left">Topic</th><th align="left">Trend</th><th align="right">Items</th><th align="left">Last seen</th></tr>
-<tr><td align="right"><sub>1</sub></td><td><b><code>skills-tooling</code></b></td><td><code>████████████</code></td><td align="right"><b>6</b></td><td><sub>2026-W38</sub></td></tr>
-<tr><td align="right"><sub>2</sub></td><td><code>agents</code></td><td><code>██████░░░░░░</code></td><td align="right"><b>3</b></td><td><sub>2026-W36</sub></td></tr>
-<tr><td align="right"><sub>3</sub></td><td><code>models</code></td><td><code>████░░░░░░░░</code></td><td align="right"><b>2</b></td><td><sub>2026-W38</sub></td></tr>
-<tr><td align="right"><sub>4</sub></td><td><code>infra</code></td><td><code>████░░░░░░░░</code></td><td align="right"><b>2</b></td><td><sub>2026-W37</sub></td></tr>
-<tr><td align="right"><sub>5</sub></td><td><code>context</code></td><td><code>████░░░░░░░░</code></td><td align="right"><b>2</b></td><td><sub>2026-W34</sub></td></tr>
-<tr><td align="right"><sub>6</sub></td><td><code>clinical-ml</code></td><td><code>░░░░░░░░░░░░</code></td><td align="right"><b>0</b></td><td><sub>—</sub></td></tr>
+<tr><td align="right"><sub>1</sub></td><td><b><code>skills-tooling</code></b></td><td><img src="https://placehold.co/96x12/9BD3F0/9BD3F0.png" alt="6" height="12"></td><td align="right"><b>6</b></td><td><a href="ai-engineering/2026-W38.md"><sub>2026-W38</sub></a></td></tr>
+<tr><td align="right"><sub>2</sub></td><td><code>agents</code></td><td><img src="https://placehold.co/48x12/9BD3F0/9BD3F0.png" alt="3" height="12"><img src="https://placehold.co/48x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>3</b></td><td><a href="ai-engineering/2026-W36.md"><sub>2026-W36</sub></a></td></tr>
+<tr><td align="right"><sub>3</sub></td><td><code>models</code></td><td><img src="https://placehold.co/32x12/9BD3F0/9BD3F0.png" alt="2" height="12"><img src="https://placehold.co/64x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>2</b></td><td><a href="ai-engineering/2026-W38.md"><sub>2026-W38</sub></a></td></tr>
+<tr><td align="right"><sub>4</sub></td><td><code>infra</code></td><td><img src="https://placehold.co/32x12/9BD3F0/9BD3F0.png" alt="2" height="12"><img src="https://placehold.co/64x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>2</b></td><td><a href="ai-engineering/2026-W37.md"><sub>2026-W37</sub></a></td></tr>
+<tr><td align="right"><sub>5</sub></td><td><code>context</code></td><td><img src="https://placehold.co/32x12/9BD3F0/9BD3F0.png" alt="2" height="12"><img src="https://placehold.co/64x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>2</b></td><td><a href="ai-engineering/2026-W34.md"><sub>2026-W34</sub></a></td></tr>
+<tr><td align="right"><sub>6</sub></td><td><code>clinical-ml</code></td><td><img src="https://placehold.co/96x12/E7EDF3/E7EDF3.png" alt="0" height="12"></td><td align="right"><b>0</b></td><td><sub>—</sub></td></tr>
 </table>
 
 **🏥 Healthcare** — 13 items
 
 <table>
 <tr><th align="right">#</th><th align="left">Topic</th><th align="left">Trend</th><th align="right">Items</th><th align="left">Last seen</th></tr>
-<tr><td align="right"><sub>1</sub></td><td><b><code>fda</code></b></td><td><code>████████████</code></td><td align="right"><b>3</b></td><td><sub>2026-W38</sub></td></tr>
-<tr><td align="right"><sub>2</sub></td><td><b><code>trials</code></b></td><td><code>████████████</code></td><td align="right"><b>3</b></td><td><sub>2026-W38</sub></td></tr>
-<tr><td align="right"><sub>3</sub></td><td><code>clinical-ai</code></td><td><code>████████░░░░</code></td><td align="right"><b>2</b></td><td><sub>2026-W38</sub></td></tr>
-<tr><td align="right"><sub>4</sub></td><td><code>market</code></td><td><code>████████░░░░</code></td><td align="right"><b>2</b></td><td><sub>2026-W37</sub></td></tr>
-<tr><td align="right"><sub>5</sub></td><td><code>enforcement</code></td><td><code>████████░░░░</code></td><td align="right"><b>2</b></td><td><sub>2026-W36</sub></td></tr>
-<tr><td align="right"><sub>6</sub></td><td><code>payment</code></td><td><code>████░░░░░░░░</code></td><td align="right"><b>1</b></td><td><sub>2026-W37</sub></td></tr>
+<tr><td align="right"><sub>1</sub></td><td><b><code>fda</code></b></td><td><img src="https://placehold.co/96x12/9BD3F0/9BD3F0.png" alt="3" height="12"></td><td align="right"><b>3</b></td><td><a href="healthcare/2026-W38.md"><sub>2026-W38</sub></a></td></tr>
+<tr><td align="right"><sub>2</sub></td><td><b><code>trials</code></b></td><td><img src="https://placehold.co/96x12/9BD3F0/9BD3F0.png" alt="3" height="12"></td><td align="right"><b>3</b></td><td><a href="healthcare/2026-W38.md"><sub>2026-W38</sub></a></td></tr>
+<tr><td align="right"><sub>3</sub></td><td><code>clinical-ai</code></td><td><img src="https://placehold.co/64x12/9BD3F0/9BD3F0.png" alt="2" height="12"><img src="https://placehold.co/32x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>2</b></td><td><a href="healthcare/2026-W38.md"><sub>2026-W38</sub></a></td></tr>
+<tr><td align="right"><sub>4</sub></td><td><code>market</code></td><td><img src="https://placehold.co/64x12/9BD3F0/9BD3F0.png" alt="2" height="12"><img src="https://placehold.co/32x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>2</b></td><td><a href="healthcare/2026-W37.md"><sub>2026-W37</sub></a></td></tr>
+<tr><td align="right"><sub>5</sub></td><td><code>enforcement</code></td><td><img src="https://placehold.co/64x12/9BD3F0/9BD3F0.png" alt="2" height="12"><img src="https://placehold.co/32x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>2</b></td><td><a href="healthcare/2026-W36.md"><sub>2026-W36</sub></a></td></tr>
+<tr><td align="right"><sub>6</sub></td><td><code>payment</code></td><td><img src="https://placehold.co/32x12/9BD3F0/9BD3F0.png" alt="1" height="12"><img src="https://placehold.co/64x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>1</b></td><td><a href="healthcare/2026-W37.md"><sub>2026-W37</sub></a></td></tr>
 </table>
 
 <!-- TRENDS:END -->

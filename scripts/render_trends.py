@@ -27,7 +27,18 @@ LEDGER = ROOT / "data" / "trends.csv"
 README = ROOT / "README.md"
 
 WINDOW_WEEKS = 13
-BAR_WIDTH = 12
+
+# GitHub strips <style> and style= from README markdown, so a coloured bar has
+# to be an image. shields.io was the obvious candidate and does not work: it
+# collapses whitespace in its message, returning an 11px sliver whether you ask
+# for 1 unit or 12. So the bar is drawn with a service that takes explicit pixel
+# dimensions. Widths repeat across rows, so GitHub's camo image proxy ends up
+# caching only a handful of distinct URLs.
+BAR_PX = 96  # full-width bar, in pixels
+BAR_H = 12  # bar height, in pixels
+BAR_MIN_PX = 8  # a single item still has to be visible
+BAR_COLOR = "9BD3F0"  # light blue — the filled portion
+BAR_TRACK = "E7EDF3"  # pale grey — the empty remainder
 
 START = "<!-- TRENDS:START -->"
 END = "<!-- TRENDS:END -->"
@@ -69,14 +80,38 @@ def load_rows():
     return rows
 
 
+def _segment(px, color, alt):
+    """One solid-colour run of the bar, as a fixed-size image."""
+    return '<img src="https://placehold.co/%dx%d/%s/%s.png" alt="%s" height="%d">' % (
+        px,
+        BAR_H,
+        color,
+        color,
+        alt,
+        BAR_H,
+    )
+
+
 def bar(n, maxn):
-    """A fixed-width bar, so every row lines up however small the counts are."""
-    if maxn <= 0:
-        return "░" * BAR_WIDTH
-    filled = int(round(n / float(maxn) * BAR_WIDTH))
-    if n > 0:
-        filled = max(1, filled)
-    return "█" * filled + "░" * (BAR_WIDTH - filled)
+    """A fixed-width bar, so every row lines up however small the counts are.
+
+    Drawn as up to two images: the light-blue filled run, then a pale track for
+    the remainder. The alt text carries the count, so the row still reads
+    correctly if the images fail to load.
+    """
+    filled = 0
+    if maxn > 0:
+        filled = int(round(n / float(maxn) * BAR_PX))
+        if n > 0:
+            filled = max(BAR_MIN_PX, filled)
+    empty = BAR_PX - filled
+
+    parts = []
+    if filled:
+        parts.append(_segment(filled, BAR_COLOR, str(n)))
+    if empty:
+        parts.append(_segment(empty, BAR_TRACK, "" if filled else str(n)))
+    return "".join(parts)
 
 
 def render(rows):
@@ -156,15 +191,25 @@ def render(rows):
             name = "<code>%s</code>%s" % (html.escape(topic), flag)
             if n and n == maxn:
                 name = "<b>%s</b>" % name
+            # Link the week straight to that area's dated brief, so a topic
+            # you care about is one click from the write-up that produced it.
             seen = last_seen.get(topic)
+            if seen:
+                seen_cell = '<a href="%s/%s.md"><sub>%s</sub></a>' % (
+                    slug,
+                    seen,
+                    seen,
+                )
+            else:
+                seen_cell = "<sub>—</sub>"
             out.append(
                 '<tr>'
                 '<td align="right"><sub>%d</sub></td>'
                 '<td>%s</td>'
-                '<td><code>%s</code></td>'
+                '<td>%s</td>'
                 '<td align="right"><b>%d</b></td>'
-                '<td><sub>%s</sub></td>'
-                '</tr>' % (rank, name, bar(n, maxn), n, seen if seen else "—")
+                '<td>%s</td>'
+                '</tr>' % (rank, name, bar(n, maxn), n, seen_cell)
             )
         out.append("</table>")
         out.append("")
