@@ -27,3 +27,5 @@ week,date,area,topic,headline,url
 2026-W38,2026-09-09,healthcare,clinical-ai,"ARPA-H launches ADVOCATE — $62.7M for FDA-authorized agentic AI",https://arpa-h.gov/news-and-events/arpa-h-launches-worlds-first-bid-build-fda-authorized-clinical-ai-cardiovascular
 2026-W38,2026-09-12,healthcare,trials,"AstraZeneca camizestrant misses in SERENA-4",https://www.statnews.com/
 2026-W38,2026-09-11,healthcare,fda,"Scholar Rock wins first SMA approval targeting muscle loss",https://www.statnews.com/
+2026-W39,2026-09-21,ai-engineering,skills-tooling,"cloudflare/security-audit-skill surges +14.9k on adversarial verification",https://github.com/cloudflare/security-audit-skill
+2026-W39,2026-09-21,ai-engineering,infra,"colibri runs 2.8T-param MoE models off NVMe in pure C",https://github.com/JustVugg/colibri
