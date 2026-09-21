@@ -1,0 +1,29 @@
+week,date,area,topic,headline,url
+2026-W34,2026-08-23,ai-engineering,context,"volcengine/OpenViking — self-evolving context database",https://github.com/volcengine/OpenViking
+2026-W34,2026-08-23,ai-engineering,context,"akitaonrails/ai-memory — long-term memory for agent CLIs",https://github.com/akitaonrails/ai-memory
+2026-W34,2026-08-23,ai-engineering,infra,"modular/modular — MAX and Mojo serving/compiler layer",https://github.com/modular/modular
+2026-W34,2026-08-18,healthcare,fda,"FDA opens comment on regulating generative-AI medical devices",https://www.aha.org/news/headline/2026-08-18-fda-seeks-feedback-potential-regulatory-approaches-generative-ai-enabled-medical-devices
+2026-W34,2026-08-18,healthcare,trials,"Amylyx avexitide Phase 3 LUCIDITY topline",https://www.amylyx.com/news/amylyx-pharmaceuticals-announces-positive-topline-results-from-phase-3-lucidity-clinical-trial-of-avexitide-in-post-bariatric-hypoglycemia
+2026-W34,2026-08-19,healthcare,fda,"Heidi Overton nominated as FDA Commissioner",https://www.alston.com/en/insights/publications/2026/08/health-care-week-in-review-august-21-2026
+2026-W35,2026-08-24,ai-engineering,agents,"deepseek-ai/deepseek-harness — plugin-architected agent harness",https://github.com/deepseek-ai/deepseek-harness
+2026-W35,2026-08-24,ai-engineering,agents,"cordiverse/cordis — plugin substrate under deepseek-harness",https://github.com/cordiverse/cordis
+2026-W35,2026-08-24,ai-engineering,skills-tooling,"Plugin registries consolidating around vendors",https://github.com/cursor/plugins
+2026-W35,2026-08-19,healthcare,trials,"Merck + Moderna intismeran autogene meets Phase 3 endpoints",https://www.merck.com/news/merck-and-moderna-announce-phase-3-interpath-001-trial-of-intismeran-autogene-plus-keytruda-met-endpoints-of-recurrence-free-survival-rfs-and-distant-metastasis-free-survival-dmfs-in-patient/
+2026-W35,2026-08-20,healthcare,market,"Health IT is buying, not funding — M&A over rounds",https://www.healthitanswers.net/health-it-business-news-financial-edition-august-20-2026/
+2026-W36,2026-08-31,ai-engineering,skills-tooling,"tt-a1i/archify — diagram skill, fastest riser",https://github.com/tt-a1i/archify
+2026-W36,2026-08-31,ai-engineering,agents,"apache/maka — local-first agent workspace, ASF incubating",https://github.com/apache/maka
+2026-W36,2026-08-31,ai-engineering,skills-tooling,"Anthropic plugin registries compounding",https://github.com/anthropics/claude-plugins-community
+2026-W36,2026-08-27,healthcare,enforcement,"Villages Health settles MA upcoding for $541.5M",https://www.healthcaredive.com/news/the-villages-health-medicare-overbilling-settlement-doj-humana/828915/
+2026-W36,2026-08-25,healthcare,clinical-ai,"Pew — patients want disclosure when AI touches their care",https://www.pewresearch.org/short-reads/2026/08/25/americans-want-transparency-when-ai-is-used-in-their-healthcare/
+2026-W36,2026-08-28,healthcare,enforcement,"Florida and Maryland AGs sue PBMs and Optum",https://www.fiercehealthcare.com/payers/florida-ag-sues-prime-therapeutics-express-scripts-alleged-price-fixing
+2026-W37,2026-09-01,ai-engineering,models,"Claude Fable 5.1 and Mythos 5.1",https://www.anthropic.com/news
+2026-W37,2026-09-07,ai-engineering,infra,"magnitudedev/magnitude — local inference server for agents",https://github.com/magnitudedev/magnitude
+2026-W37,2026-09-07,ai-engineering,skills-tooling,"The skill-bundle wave did not crest (archify 52k)",https://github.com/tt-a1i/archify
+2026-W37,2026-09-04,healthcare,market,"Oura files public S-1 as an AI health platform",https://www.fiercehealthcare.com/digital-health/smart-ring-maker-oura-files-go-public-pitching-investors-ai-driven-preventive-health
+2026-W37,2026-09-02,healthcare,payment,"UnitedHealthcare cuts prior authorization from ~1,700 codes",https://www.healthcaredive.com/news/unitedhealthcare-prior-authorization-codes-cut-1700/829406/
+2026-W38,2026-09-10,ai-engineering,models,"DeepSeek-V4.1-Flash absorbs V4-Pro API traffic",https://siliconangle.com/2026/09/10/deepseek-releases-v4-1-flash-says-it-outperforms-flagship-v4-pro/
+2026-W38,2026-09-14,ai-engineering,skills-tooling,"openai/plugins — first-party Codex plugin catalog",https://github.com/openai/plugins
+2026-W38,2026-09-14,ai-engineering,skills-tooling,"GitHub trending is now a skills marketplace",https://github.com/trending?since=weekly
+2026-W38,2026-09-09,healthcare,clinical-ai,"ARPA-H launches ADVOCATE — $62.7M for FDA-authorized agentic AI",https://arpa-h.gov/news-and-events/arpa-h-launches-worlds-first-bid-build-fda-authorized-clinical-ai-cardiovascular
+2026-W38,2026-09-12,healthcare,trials,"AstraZeneca camizestrant misses in SERENA-4",https://www.statnews.com/
+2026-W38,2026-09-11,healthcare,fda,"Scholar Rock wins first SMA approval targeting muscle loss",https://www.statnews.com/

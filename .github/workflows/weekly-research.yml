@@ -162,8 +162,34 @@ jobs:
             - COMMIT AFTER EACH AREA, not once at the end: finish an area's file,
               commit it, then move on. If this run is cut short mid-way, the
               committed work must still be useful.
+            - APPEND ONE ROW PER PUBLISHED ITEM to data/trends.csv, in the same
+              shell call that commits that area's file. Use the closed topic
+              vocabulary in research-brief.md — exactly one topic per item, and
+              never invent a new one. This feeds the rolling trend table; a run
+              that publishes items without logging them leaves it silently stale.
             - Update README.md's "This Week" section last, then commit again.
               Use "—" for an area that produced nothing worth publishing.
+
+      # ── Rolling trend table — deterministic, zero model tokens ───────────
+      # Counting 13 weeks of history inside the agent would cost ~26 turns
+      # against GOV_MAX_TURNS and tens of thousands of tokens per run. The
+      # agent instead appends one row per item to data/trends.csv, and this
+      # step does the arithmetic for free. It pushes its own commit so a
+      # no-op in the accounting step below can never strand it.
+      - name: Render the 13-week trend table
+        if: always() && steps.plan.outputs.skip != 'true'
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          python3 scripts/render_trends.py
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md data/trends.csv
+          git diff --staged --quiet && exit 0
+          git commit -m "trends: refresh rolling 13-week table"
+          git pull --rebase --autostash origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
 
       # ── Layer 4: what did this run actually cost? ────────────────────────
       - name: Account for the run
