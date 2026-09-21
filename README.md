@@ -32,7 +32,7 @@
 | Area | What I'm tracking |
 | --- | --- |
 | 🤖 **AI Engineering** | Models, tooling, frameworks, and practical patterns for building with AI |
-| 🏥 **Healthcare Trends** | Developments, research, and market movement in the healthcare sector |
+| 🏥 **Healthcare Trends** | Regulatory change first (FDA, CMS, HHS, legislation) — then industry moves, market movement, and research |
 
 ---
 
@@ -62,7 +62,7 @@ mai_pkb/
 ├── .governor/run-log.csv     # turns / cost / outcome, one row per run
 ├── CLAUDE.md                 # standing conventions
 ├── 🤖 ai-engineering/        # AI models, tools, and engineering practices
-└── 🏥 healthcare/            # Healthcare industry trends and research
+└── 🏥 healthcare/            # Healthcare regulation, industry trends, and research
 ```
 
 Each week, Claude drops a dated file (`{area}/{year}-W{week}.md`) for the top items and refreshes the **This Week** section above.
@@ -97,7 +97,7 @@ flowchart TD
         SKILLS["skills/*.md<br/>per-area source guides"]
     end
 
-    WEB(["🌐 Web<br/>GitHub · arXiv · health &amp; industry media"])
+    WEB(["🌐 Web<br/>GitHub · arXiv · FDA/CMS/HHS · health &amp; industry media"])
 
     subgraph OUTPUT["📚 Output — this git repo"]
         FILES["Dated topic files<br/>area/YYYY-Www.md"]

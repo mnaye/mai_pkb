@@ -7,7 +7,7 @@ This is the editable "brain" of the weekly research agent. Refine it over time w
 Each week, research the most notable new developments — GitHub repositories, papers, product/model releases, and industry news from the **past 7 days** — across these two focus areas:
 
 1. **AI Engineering** (`ai-engineering/`) — models, tooling, frameworks, and practical engineering patterns for building with AI. **When researching this area, follow [`skills/ai-engineering.md`](skills/ai-engineering.md)** — scrape GitHub (Trending + star-sorted search) for agentic-coding/harnessing repos, and gather high-star repos plus published articles on productionizing healthcare models.
-2. **Healthcare Trends** (`healthcare/`) — developments, research, and market movement in the healthcare sector. **When researching this area, follow [`skills/healthcare.md`](skills/healthcare.md)** — search, then fetch articles from the major health-industry, research, and regulatory sources listed there.
+2. **Healthcare Trends** (`healthcare/`) — **changes in healthcare regulation first**, then industry moves, market movement, and research. **When researching this area, follow [`skills/healthcare.md`](skills/healthcare.md)** — lead with the regulatory sources listed there (FDA, CMS, HHS/OCR, ASTP-ONC, Federal Register), fetching the primary agency document before any secondary coverage, and spend what's left of the budget on industry and research.
 
 ## Run budget (the governor)
 
