@@ -50,12 +50,26 @@ AREAS = [
     (
         "ai-engineering",
         "🤖 AI Engineering",
-        ["models", "agents", "skills-tooling", "context", "infra", "clinical-ml"],
+        [
+            ("models", "Frontier and open-weight releases, licensing, pricing, deprecations"),
+            ("agents", "Coding agents, harnesses, runtimes, orchestration, eval harnesses"),
+            ("skills-tooling", "Skills, plugins, MCP, manifests, registries, SDKs"),
+            ("context", "Memory, retrieval/RAG, context-window engineering"),
+            ("infra", "Serving, local inference, compilers, cost and performance plumbing"),
+            ("clinical-ml", "Productionizing healthcare and clinical models"),
+        ],
     ),
     (
         "healthcare",
         "🏥 Healthcare",
-        ["fda", "payment", "enforcement", "clinical-ai", "trials", "market"],
+        [
+            ("fda", "Device and drug authorization, guidance, clearances, recalls, agency leadership"),
+            ("payment", "CMS rules, coverage, reimbursement, Medicare/Medicaid, prior authorization"),
+            ("enforcement", "DOJ, state AG, OCR and FTC actions, settlements, litigation, HIPAA"),
+            ("clinical-ai", "AI and digital-health products, deployments, consent and disclosure"),
+            ("trials", "Clinical and translational readouts"),
+            ("market", "Funding, M&A, IPOs, layoffs, business moves"),
+        ],
     ),
 ]
 
@@ -141,12 +155,12 @@ def render(rows):
 
     known = set()
     for _, _, topics in AREAS:
-        known.update(topics)
+        known.update(t for t, _ in topics)
 
     for slug, label, topics in AREAS:
         area_rows = [r for r in window if r["area"] == slug]
         # Seed every vocabulary topic at zero so a dormant one still gets a row.
-        counts = dict((t, 0) for t in topics)
+        counts = dict((t, 0) for t, _ in topics)
         last_seen = {}
         for r in area_rows:
             t = r["topic"].strip()
@@ -213,6 +227,38 @@ def render(rows):
             )
         out.append("</table>")
         out.append("")
+
+    # The legend is generated from the same AREAS table the counts come from,
+    # so a definition can never drift from the vocabulary actually being
+    # counted. Collapsed, because it is reference material and the section
+    # above it is already long.
+    out.append("<details>")
+    out.append("<summary><b>What each topic covers</b></summary>")
+    out.append("<table>")
+    out.append(
+        '<tr><th align="left">Area</th><th align="left">Topic</th>'
+        '<th align="left">Covers</th></tr>'
+    )
+    for _, label, topics in AREAS:
+        for i, (topic, desc) in enumerate(topics):
+            area_td = ""
+            if i == 0:
+                area_td = '<td rowspan="%d"><sub><b>%s</b></sub></td>' % (
+                    len(topics),
+                    html.escape(label),
+                )
+            out.append(
+                '<tr>%s<td><code>%s</code></td><td><sub>%s</sub></td></tr>'
+                % (area_td, html.escape(topic), html.escape(desc))
+            )
+    out.append(
+        '<tr><td><sub><b>either</b></sub></td><td><code>other</code></td>'
+        '<td><sub>Nothing in the list fits — one primary topic per item, and '
+        'never invent a new one</sub></td></tr>'
+    )
+    out.append("</table>")
+    out.append("</details>")
+    out.append("")
 
     out.append(END)
     return "\n".join(out)

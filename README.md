@@ -53,6 +53,26 @@
 <tr><td align="right"><sub>6</sub></td><td><code>payment</code></td><td><img src="https://placehold.co/24x12/9BD3F0/9BD3F0.png" alt="1" height="12"><img src="https://placehold.co/72x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>1</b></td><td><a href="healthcare/2026-W37.md"><sub>2026-W37</sub></a></td></tr>
 </table>
 
+<details>
+<summary><b>What each topic covers</b></summary>
+<table>
+<tr><th align="left">Area</th><th align="left">Topic</th><th align="left">Covers</th></tr>
+<tr><td rowspan="6"><sub><b>🤖 AI Engineering</b></sub></td><td><code>models</code></td><td><sub>Frontier and open-weight releases, licensing, pricing, deprecations</sub></td></tr>
+<tr><td><code>agents</code></td><td><sub>Coding agents, harnesses, runtimes, orchestration, eval harnesses</sub></td></tr>
+<tr><td><code>skills-tooling</code></td><td><sub>Skills, plugins, MCP, manifests, registries, SDKs</sub></td></tr>
+<tr><td><code>context</code></td><td><sub>Memory, retrieval/RAG, context-window engineering</sub></td></tr>
+<tr><td><code>infra</code></td><td><sub>Serving, local inference, compilers, cost and performance plumbing</sub></td></tr>
+<tr><td><code>clinical-ml</code></td><td><sub>Productionizing healthcare and clinical models</sub></td></tr>
+<tr><td rowspan="6"><sub><b>🏥 Healthcare</b></sub></td><td><code>fda</code></td><td><sub>Device and drug authorization, guidance, clearances, recalls, agency leadership</sub></td></tr>
+<tr><td><code>payment</code></td><td><sub>CMS rules, coverage, reimbursement, Medicare/Medicaid, prior authorization</sub></td></tr>
+<tr><td><code>enforcement</code></td><td><sub>DOJ, state AG, OCR and FTC actions, settlements, litigation, HIPAA</sub></td></tr>
+<tr><td><code>clinical-ai</code></td><td><sub>AI and digital-health products, deployments, consent and disclosure</sub></td></tr>
+<tr><td><code>trials</code></td><td><sub>Clinical and translational readouts</sub></td></tr>
+<tr><td><code>market</code></td><td><sub>Funding, M&amp;A, IPOs, layoffs, business moves</sub></td></tr>
+<tr><td><sub><b>either</b></sub></td><td><code>other</code></td><td><sub>Nothing in the list fits — one primary topic per item, and never invent a new one</sub></td></tr>
+</table>
+</details>
+
 <!-- TRENDS:END -->
 
 | Focus Area | Summary | File |
