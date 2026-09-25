@@ -230,9 +230,10 @@ def render(rows):
 
     # The legend is generated from the same AREAS table the counts come from,
     # so a definition can never drift from the vocabulary actually being
-    # counted. Collapsed, because it is reference material and the section
-    # above it is already long.
-    out.append("<details>")
+    # counted. `open` matters: a plain <details> renders collapsed on GitHub,
+    # which hides the definitions behind a disclosure triangle that is easy to
+    # miss. Still collapsible, just not hidden by default.
+    out.append("<details open>")
     out.append("<summary><b>What each topic covers</b></summary>")
     out.append("<table>")
     out.append(

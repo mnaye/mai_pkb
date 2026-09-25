@@ -53,7 +53,7 @@
 <tr><td align="right"><sub>6</sub></td><td><code>payment</code></td><td><img src="https://placehold.co/24x12/9BD3F0/9BD3F0.png" alt="1" height="12"><img src="https://placehold.co/72x12/E7EDF3/E7EDF3.png" alt="" height="12"></td><td align="right"><b>1</b></td><td><a href="healthcare/2026-W37.md"><sub>2026-W37</sub></a></td></tr>
 </table>
 
-<details>
+<details open>
 <summary><b>What each topic covers</b></summary>
 <table>
 <tr><th align="left">Area</th><th align="left">Topic</th><th align="left">Covers</th></tr>
