@@ -111,7 +111,7 @@ Everything tunable is in the `env:` block at the top of
 ```yaml
 env:
   GOV_MODEL: claude-opus-5
-  GOV_MAX_TURNS: '35'
+  GOV_MAX_TURNS: '40'
   GOV_SEARCHES_PER_AREA: '5'
   GOV_FETCHES_PER_AREA: '4'
   GOV_AREAS: 'ai-engineering healthcare'
@@ -124,6 +124,15 @@ env:
 | First (pre-governor) | 4 areas | 20 | **$5.16** | ~10 min | Green, but committed nothing (5 permission denials) |
 | 32623239367 | 4 areas | — | — | 4m37s | Failed — Pro session limit reached |
 | 32644519184 | 2 areas | 27 | **$1.35** | 3m16s | Research committed; red X on the turn assertion |
+| 32712188084 | 2 areas | 28 | $1.45 | 3m40s | ok |
+| 33414097927 | 2 areas | 33 | $1.47 | 3m34s | ok |
+| 34133320085 | 2 areas | 31 | $1.57 | 4m41s | ok |
+| 34861248027 | 2 areas | 32 | $1.62 | 5m15s | ok |
+| 35618518112 | 2 areas | 34 | $1.84 | 4m41s | ok — first run writing the trend ledger |
+
+Turns have crept up with the work rather than jumped: **27 → 34 over six weeks**, with W39
+landing one under the old cap of 35. That is why `GOV_MAX_TURNS` is now **40**. The cap is an
+assertion about the expected shape of a run, and it had stopped leaving room for a normal one.
 
 Roughly a **74% cost reduction**, driven mostly by the scope cut. `modelUsage` also shows
 Claude Code routing some internal work to Haiku 4.5 on its own — page-fetch summarization

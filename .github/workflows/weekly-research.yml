@@ -42,10 +42,13 @@ env:
   GOV_MODEL: claude-opus-5     # heaviest draw on the Pro window; caps matter
   # Must be arithmetically consistent with the budget below: 2 areas x (5
   # searches + 4 fetches) = 18 research turns, plus reading the brief/skills,
-  # writing 2 files, the README, and 3 commits. A clean run measured 27
-  # (run 32644519184). 35 leaves headroom and still trips on a runaway.
+  # writing 2 files, the README, 3 commits, and the per-item appends to
+  # data/trends.csv. Observed turns have climbed with the work: 27 at W34
+  # (run 32644519184), then 31 / 32 / 34 at W37-W39 — one under the old cap
+  # of 35, with the ledger append added since. 40 restores headroom and still
+  # trips on a runaway.
   # NOTE: this is an assertion, not a brake — see GOVERNOR.md.
-  GOV_MAX_TURNS: '35'
+  GOV_MAX_TURNS: '40'
   GOV_SEARCHES_PER_AREA: '5'   # WebSearch calls the agent may spend per area
   GOV_FETCHES_PER_AREA: '4'    # WebFetch (page scrape) calls per area — the
                                # token-heaviest call; tighten this dial first
