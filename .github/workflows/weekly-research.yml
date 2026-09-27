@@ -173,24 +173,28 @@ jobs:
             - Update README.md's "This Week" section last, then commit again.
               Use "—" for an area that produced nothing worth publishing.
 
-      # ── Rolling trend table — deterministic, zero model tokens ───────────
-      # Counting 13 weeks of history inside the agent would cost ~26 turns
-      # against GOV_MAX_TURNS and tens of thousands of tokens per run. The
-      # agent instead appends one row per item to data/trends.csv, and this
-      # step does the arithmetic for free. It pushes its own commit so a
-      # no-op in the accounting step below can never strand it.
-      - name: Render the 13-week trend table
+      # ── Tagging + trend table — deterministic, zero model tokens ─────────
+      # Everything derivable from data/trends.csv is computed here rather than
+      # by the agent. Counting 13 weeks of history inside the agent would cost
+      # ~26 turns against GOV_MAX_TURNS; stamping topics onto brief items
+      # would cost more turns still, and the agent could tag an item one way
+      # here and another way in the ledger. Both scripts are free and cannot
+      # disagree with the ledger, because they read it. The step pushes its
+      # own commit so a no-op in the accounting step below can never strand it.
+      - name: Tag brief items and render the trend table
         if: always() && steps.plan.outputs.skip != 'true'
         env:
           BRANCH: ${{ github.ref_name }}
         run: |
           set -euo pipefail
+          python3 scripts/tag_briefs.py
           python3 scripts/render_trends.py
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md data/trends.csv
+          # $GOV_AREAS is unquoted on purpose — it is a space-separated list.
+          git add README.md data/trends.csv $GOV_AREAS
           git diff --staged --quiet && exit 0
-          git commit -m "trends: refresh rolling 13-week table"
+          git commit -m "trends: tag brief items and refresh the 13-week table"
           git pull --rebase --autostash origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
 
