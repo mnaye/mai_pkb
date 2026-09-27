@@ -60,8 +60,12 @@ Each weekly file should contain:
 After writing the topic files, update `README.md`'s **This Week** section (near the top of the README) so it reflects only the current week. Replace **only these two things**:
 
 1. **This week's research brief** — replace the blockquote with a fresh **2–3 sentence overview** of the week's top findings (the through-line / why it matters).
-2. **The table** — one row per focus area with three columns:
+2. **The table** — one row per focus area with four columns:
    - **Focus Area** — the area name (keep the emoji).
+   - **Topics** — the topic tags you logged for that area this week, as inline code joined by ` · `
+     (e.g. `` `fda` · `trials` ``). Use **exactly** the tags you wrote to [`data/trends.csv`](data/trends.csv)
+     for this week — no others, no invented ones — so this table and the trend counts below it can
+     never disagree. `—` if the area published nothing.
    - **Summary** — a one-line takeaway for that area this week, or `—` if nothing from it made the top 3.
    - **File** — a markdown link to this week's dated file for that area (e.g. `[2026-W33](ai-engineering/2026-W33.md)`), or `—` if it wasn't in the top 3.
 
