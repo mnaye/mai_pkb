@@ -23,6 +23,11 @@
 
 > **This week's research brief (2026-W39):** No frontier model landed this week, and the through-line across the top three is **verification as the scarce resource** — who checks the machine's output, and who is allowed to stop checking. **FDA published a final order on 17 September denying** a petition (from Harrison.ai) that would have exempted radiology **computer-aided detection, diagnosis and triage software** from 510(k) review, holding that the case for skipping premarket notification was not made and that manufacturers of the largest, most commercially mature AI device category **must keep clearing every product**. On the engineering side the same instinct shows up voluntarily: **`cloudflare/security-audit-skill`** took the biggest weekly star gain on GitHub (**+14,864 to 18,717**) for a design that assumes the agent hallucinates and routes every finding to a *different* agent that tries to disprove it. And **`JustVugg/colibri`** (**36,739 ★, +7,441**) moves the frontier in the other direction — a dependency-free C engine streaming MoE experts off NVMe to run 744B–2.8T-parameter models on a desktop, trading throughput for access.
 
+| Focus Area | Summary | File |
+| --- | --- | --- |
+| 🤖 AI Engineering | **`cloudflare/security-audit-skill`** posts the week's largest star gain (**+14,864 → 18,717 ★**) on an adversarial design where the agent that checks a finding is never the one that found it; **`colibri`** (**36,739 ★, +7,441**) runs Kimi K3 and GLM-5.2 class MoE models off NVMe in pure C at 1–7 tok/s. | [2026-W39](ai-engineering/2026-W39.md) |
+| 🏥 Healthcare | **FDA denied the 510(k) exemption petition** for radiology CAD/CADe/CADx and triage software (91 FR 58817, effective 17 Sep) — premarket review stays for the biggest AI device category; separately **all 50 states, DC and Puerto Rico applied** to CMS's most-favored-nation **GENEROUS** Medicaid drug-pricing model ($64.3B / 10 yrs). | [2026-W39](healthcare/2026-W39.md) |
+
 <!-- TRENDS:START -->
 
 ### 📈 Topic trends — rolling 13 weeks
@@ -74,11 +79,6 @@
 </details>
 
 <!-- TRENDS:END -->
-
-| Focus Area | Summary | File |
-| --- | --- | --- |
-| 🤖 AI Engineering | **`cloudflare/security-audit-skill`** posts the week's largest star gain (**+14,864 → 18,717 ★**) on an adversarial design where the agent that checks a finding is never the one that found it; **`colibri`** (**36,739 ★, +7,441**) runs Kimi K3 and GLM-5.2 class MoE models off NVMe in pure C at 1–7 tok/s. | [2026-W39](ai-engineering/2026-W39.md) |
-| 🏥 Healthcare | **FDA denied the 510(k) exemption petition** for radiology CAD/CADe/CADx and triage software (91 FR 58817, effective 17 Sep) — premarket review stays for the biggest AI device category; separately **all 50 states, DC and Puerto Rico applied** to CMS's most-favored-nation **GENEROUS** Medicaid drug-pricing model ($64.3B / 10 yrs). | [2026-W39](healthcare/2026-W39.md) |
 
 *(Claude replaces the brief and table each week; the archive pointer under the heading stays.)*
 
