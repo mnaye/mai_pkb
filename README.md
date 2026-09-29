@@ -80,6 +80,21 @@
 
 <!-- TRENDS:END -->
 
+<!-- FOLLOWUPS:START -->
+
+### 📌 Coming up
+
+| Due | Item | Area |
+| --- | --- | --- |
+| 2026-10-19 | [FDA comment period closes on the CDRH discussion paper on generative-AI-enabled medical devices (FDA-2026-N-7874)](https://www.aha.org/news/headline/2026-08-18-fda-seeks-feedback-potential-regulatory-approaches-generative-ai-enabled-medical-devices) | healthcare |
+| 2026-12-07 | [Comments close on FDA's Nonclinical Testing Terminology direct final rule; one significant adverse comment withdraws it, otherwise effective 2027-02-04](https://www.federalregister.gov/documents/2026/09/22/2026-19350/nonclinical-testing-terminology) | healthcare |
+| 2026-12-31 | [Amylyx plans an NDA submission for avexitide (post-bariatric hypoglycemia)](https://www.amylyx.com/news/amylyx-pharmaceuticals-announces-positive-topline-results-from-phase-3-lucidity-clinical-trial-of-avexitide-in-post-bariatric-hypoglycemia) | healthcare |
+| TBD | [Senate confirmation vote on Heidi Overton's nomination as FDA Commissioner](https://www.alston.com/en/insights/publications/2026/08/health-care-week-in-review-august-21-2026) | healthcare |
+
+<sub>Open items from [`data/follow-ups.csv`](data/follow-ups.csv), where the weekly run records deadlines it finds and closes them once they're covered.</sub>
+
+<!-- FOLLOWUPS:END -->
+
 *(Claude replaces the brief and table each week; the archive pointer under the heading stays.)*
 
 ---

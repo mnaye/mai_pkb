@@ -110,7 +110,7 @@ Everything tunable is in the `env:` block at the top of
 
 ```yaml
 env:
-  GOV_MODEL: claude-opus-5
+  GOV_MODEL: claude-opus-5-5   # claude-opus-5 through 2026-W40
   GOV_MAX_TURNS: '40'
   GOV_SEARCHES_PER_AREA: '5'
   GOV_FETCHES_PER_AREA: '4'

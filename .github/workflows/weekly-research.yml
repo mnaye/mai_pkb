@@ -39,14 +39,18 @@ concurrency:
 
 env:
   # ── The governor's dials ────────────────────────────────────────────────
-  GOV_MODEL: claude-opus-5     # heaviest draw on the Pro window; caps matter
+  # Opus 5.5 from 2026-W41 (was claude-opus-5 through W40). Anthropic claims
+  # Opus 5 quality in ~half the turns at lower per-token cost; compare
+  # turns and cost_usd in .governor/run-log.csv before and after.
+  GOV_MODEL: claude-opus-5-5   # heaviest draw on the Pro window; caps matter
   # Must be arithmetically consistent with the budget below: 2 areas x (5
   # searches + 4 fetches) = 18 research turns, plus reading the brief/skills,
   # writing 2 files, the README, 3 commits, and the per-item appends to
   # data/trends.csv. Observed turns have climbed with the work: 27 at W34
   # (run 32644519184), then 31 / 32 / 34 at W37-W39 — one under the old cap
   # of 35, with the ledger append added since. 40 restores headroom and still
-  # trips on a runaway.
+  # trips on a runaway. Follow-ups add ~1: the due list arrives in the
+  # prompt, new rows ride the trends.csv shell call, closing a row is 1 edit.
   # NOTE: this is an assertion, not a brake — see GOVERNOR.md.
   GOV_MAX_TURNS: '40'
   GOV_SEARCHES_PER_AREA: '5'   # WebSearch calls the agent may spend per area
@@ -104,6 +108,12 @@ jobs:
             echo "::notice::Already published this week ($EXISTING) — skipping. Re-run with force=true to override."
           fi
 
+          # What's coming due, computed here so the agent never spends a turn
+          # reading data/follow-ups.csv to find out. A broken ledger must not
+          # block the week's research, so fall back to a pointer to the file.
+          FOLLOWUPS=$(python3 scripts/followups.py prompt --today "$(date -u +%F)" 2>&1) \
+            || FOLLOWUPS="(scripts/followups.py failed; read data/follow-ups.csv directly) $FOLLOWUPS"
+
           {
             echo "year=$YEAR"
             echo "week=$WEEK"
@@ -111,6 +121,9 @@ jobs:
             echo "names=$NAMES"
             echo "files=$FILES"
             echo "skip=$SKIP"
+            echo "followups<<FOLLOWUPS_EOF"
+            echo "$FOLLOWUPS"
+            echo "FOLLOWUPS_EOF"
           } >> "$GITHUB_OUTPUT"
 
           {
@@ -124,6 +137,12 @@ jobs:
             echo "| Turn cap | $GOV_MAX_TURNS |"
             echo "| Budget per area | $GOV_SEARCHES_PER_AREA searches / $GOV_FETCHES_PER_AREA fetches |"
             echo "| Skipped | $SKIP |"
+            echo ""
+            echo "**Follow-ups handed to the agent**"
+            echo ""
+            echo '```'
+            echo "$FOLLOWUPS"
+            echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
       - uses: anthropics/claude-code-action@v1
@@ -170,6 +189,15 @@ jobs:
               vocabulary in research-brief.md — exactly one topic per item, and
               never invent a new one. This feeds the rolling trend table; a run
               that publishes items without logging them leaves it silently stale.
+            - FOLLOW-UPS (data/follow-ups.csv, rules in research-brief.md). As of
+              today:
+              ${{ steps.plan.outputs.followups }}
+              If a due or overdue item is worth publishing this week, it may be
+              one of your items. Close a row (status done or dropped, plus
+              closed_week) only when you have a source that it happened or was
+              withdrawn; never delete rows. Append a row for each new dated
+              commitment you meet, in the same shell call as the trends.csv
+              append. Do not spend searches just to check on follow-ups.
             - Update README.md's "This Week" section last, then commit again.
               Use "—" for an area that produced nothing worth publishing.
 
@@ -181,7 +209,7 @@ jobs:
       # here and another way in the ledger. Both scripts are free and cannot
       # disagree with the ledger, because they read it. The step pushes its
       # own commit so a no-op in the accounting step below can never strand it.
-      - name: Tag brief items and render the trend table
+      - name: Tag brief items and render the trend and follow-up tables
         if: always() && steps.plan.outputs.skip != 'true'
         env:
           BRANCH: ${{ github.ref_name }}
@@ -189,12 +217,13 @@ jobs:
           set -euo pipefail
           python3 scripts/tag_briefs.py
           python3 scripts/render_trends.py
+          python3 scripts/followups.py render
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # $GOV_AREAS is unquoted on purpose — it is a space-separated list.
-          git add README.md data/trends.csv $GOV_AREAS
+          git add README.md data/trends.csv data/follow-ups.csv $GOV_AREAS
           git diff --staged --quiet && exit 0
-          git commit -m "trends: tag brief items and refresh the 13-week table"
+          git commit -m "trends: tag brief items, refresh the 13-week table and follow-ups"
           git pull --rebase --autostash origin "$BRANCH"
           git push origin "HEAD:$BRANCH"
 
