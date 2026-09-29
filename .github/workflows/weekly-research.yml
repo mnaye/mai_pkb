@@ -198,6 +198,14 @@ jobs:
               withdrawn; never delete rows. Append a row for each new dated
               commitment you meet, in the same shell call as the trends.csv
               append. Do not spend searches just to check on follow-ups.
+            - SO WHAT: every weekly file gets the "## So what" section defined in
+              research-brief.md, written from the items you already have. It
+              costs no searches or fetches; do not research for it. Write it
+              into each area's file BEFORE you commit that area, in the same
+              write as the items, never as a separate pass at the end. Write it,
+              and the README so-what lines, in plain English at an 8th-grade
+              reading level or below: short sentences, everyday words, and any
+              jargon explained in plain words the first time.
             - Update README.md's "This Week" section last, then commit again.
               Use "—" for an area that produced nothing worth publishing.
 
@@ -212,12 +220,18 @@ jobs:
       - name: Tag brief items and render the trend and follow-up tables
         if: always() && steps.plan.outputs.skip != 'true'
         env:
+          RUN_WEEK: ${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}
           BRANCH: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           python3 scripts/tag_briefs.py
           python3 scripts/render_trends.py
           python3 scripts/followups.py render
+          # So what check: is each section there, and at an 8th-grade level?
+          # Reports and raises ::warning:: annotations on the run page; never
+          # fails the job, because by now the week is already published.
+          { echo ""; echo "### 📖 So what check"; echo "";
+            python3 scripts/readability.py --week "$RUN_WEEK" --annotate || echo "_so-what check failed_"; } >> "$GITHUB_STEP_SUMMARY"
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # $GOV_AREAS is unquoted on purpose — it is a space-separated list.

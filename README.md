@@ -25,8 +25,8 @@
 
 | Focus Area | Topics | Summary | File |
 | --- | --- | --- | --- |
-| 🤖 AI Engineering | `models` · `context` | **Claude Opus 5.5** (22 Sep) claims Opus 5 quality in ~half the turns and tokens at **$4/$20 per M** with **$0.20/M cache reads**, landing the same day as **GPT-6 Sol/Luna**; **`vectorize-io/hindsight`** tops the weekly board at **40.5k ★ (+11,089)** with biomimetic agent memory — retain, recall, reflect — on Postgres + pgvector. | [2026-W40](ai-engineering/2026-W40.md) |
-| 🏥 Healthcare | `fda` | **FDA's direct final rule on Nonclinical Testing Terminology** (22 Sep, FDA-2026-N-5347) codifies that safety evidence need not be animal data across five parts of 21 CFR — effective **4 Feb 2027**, comments close **7 Dec 2026**, auto-withdrawn on any significant adverse comment. | [2026-W40](healthcare/2026-W40.md) |
+| 🤖 AI Engineering | `models` · `context` | **Claude Opus 5.5** (22 Sep) claims Opus 5 quality in ~half the turns and tokens at **$4/$20 per M** with **$0.20/M cache reads**, landing the same day as **GPT-6 Sol/Luna**; **`vectorize-io/hindsight`** tops the weekly board at **40.5k ★ (+11,089)** with biomimetic agent memory — retain, recall, reflect — on Postgres + pgvector.<br>**So what:** AI work just got cheaper, so take another look at projects you dropped for cost. If an AI agent will remember patient details, protect that memory like a medical record. ([more](ai-engineering/2026-W40.md#so-what)) | [2026-W40](ai-engineering/2026-W40.md) |
+| 🏥 Healthcare | `fda` | **FDA's direct final rule on Nonclinical Testing Terminology** (22 Sep, FDA-2026-N-5347) codifies that safety evidence need not be animal data across five parts of 21 CFR — effective **4 Feb 2027**, comments close **7 Dec 2026**, auto-withdrawn on any significant adverse comment.<br>**So what:** Computer models that predict drug safety could count more now, but teams must prove they work. Drug companies have until **7 Dec** to comment, and one serious objection kills the rule. ([more](healthcare/2026-W40.md#so-what)) | [2026-W40](healthcare/2026-W40.md) |
 
 <!-- TRENDS:START -->
 

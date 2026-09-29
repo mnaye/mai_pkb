@@ -9,6 +9,18 @@ Each week, research the most notable new developments — GitHub repositories, p
 1. **AI Engineering** (`ai-engineering/`) — models, tooling, frameworks, and practical engineering patterns for building with AI. **When researching this area, follow [`skills/ai-engineering.md`](skills/ai-engineering.md)** — scrape GitHub (Trending + star-sorted search) for agentic-coding/harnessing repos, and gather high-star repos plus published articles on productionizing healthcare models.
 2. **Healthcare Trends** (`healthcare/`) — **changes in healthcare regulation first**, then industry moves, market movement, and research. **When researching this area, follow [`skills/healthcare.md`](skills/healthcare.md)** — lead with the regulatory sources listed there (FDA, CMS, HHS/OCR, ASTP-ONC, Federal Register), fetching the primary agency document before any secondary coverage, and spend what's left of the budget on industry and research.
 
+## Who reads this
+
+Write for three readers, all working in or around healthcare:
+
+- **Healthcare data scientists**: analysis, cohorts, evaluation, and the evidence behind clinical and business decisions.
+- **ML engineers in healthcare**: building, validating, deploying and monitoring models and agents under PHI, HIPAA and regulatory constraints.
+- **Healthcare executives**: budget, risk, compliance and strategy, and deciding which problems their teams take on.
+
+Every weekly file ends its items with a **So what** for these readers (format below). An AI Engineering
+item still needs its healthcare angle spelled out: what the tool or model changes for someone handling
+patient data, clinical workflows or regulated submissions.
+
 ## Run budget (the governor)
 
 The workflow hands this run a **budget** in the prompt. Those numbers win over anything
@@ -54,6 +66,52 @@ Each weekly file should contain:
   - **Name** — bold.
   - A **one-line description**.
   - A **link** to the source.
+- A **`## So what`** section, placed **directly after `## Items`** and before any `## Also noted` or
+  `## Caveats`. It must be its own `## ` heading, because `scripts/tag_briefs.py` reads the items
+  from `## Items` up to the next `## ` heading. Use this shape:
+
+  ```markdown
+  ## So what
+
+  *For healthcare data scientists, ML engineers in healthcare, and healthcare executives.*
+
+  - **Healthcare data scientists:** how this week's items change their work, and one concrete next step.
+  - **ML engineers in healthcare:** what it means for building, validating, deploying or monitoring
+    under PHI and regulatory constraints.
+  - **Healthcare executives:** the decision, budget, risk or deadline it puts in front of them.
+
+  ### Problems worth taking on
+
+  **<Name of the use case>.** *Problem:* who has it and what it costs them today. *Why now:* which
+  item above makes it newly possible or newly necessary. *First step:* the data, owner and success
+  measure for a small pilot.
+  ```
+
+  **Write the So what in plain English, at an 8th-grade reading level or below.** The rest of the
+  file keeps its normal register; this section is the part busy readers skim, including executives
+  who don't live in the details. In practice:
+  - **Short sentences**, around 15 words on average and rarely more than 20. One idea per sentence.
+  - **Everyday words.** "Use" not "leverage", "check" not "validate", "cost" not "spend profile".
+  - **Explain any term a smart non-specialist wouldn't know, in plain words, the first time it
+    appears**: "private health data (the law calls it PHI)", "a drug filing sent to FDA". Drop the
+    term if the sentence works without it. Names of products, agencies and rules stay as they are.
+  - **Talk to the reader**, in the active voice: "Check this claim yourself", not "Verification of
+    this claim is recommended".
+  - Plain doesn't mean vague. Keep the dates, numbers and names that make it useful.
+
+  `scripts/readability.py` scores each So what section after the run and reports the grade in the
+  job summary. See `healthcare/2026-W40.md` for a section written this way.
+
+  Rules for the So what:
+  - **Ground every line in an item in this file**, and name it. It's analysis of what you published,
+    so it needs no searches or fetches of its own and must not add new facts, figures or links.
+  - **Be specific.** "Re-price the agent-assisted refactor you shelved last quarter" beats "could
+    transform workflows". If an item changes nothing for one of the readers, write *Nothing
+    actionable this week* for that reader instead of stretching.
+  - **One or two problems worth taking on**, not more. Each is a problem a team could scope in a
+    week, framed as an idea to test rather than a claim that it works.
+  - **Don't overstate the item.** If the source says a rule changes wording and keeps the safety
+    standard, the so-what can't say the standard dropped.
 
 ## Update the index
 
@@ -66,7 +124,11 @@ After writing the topic files, update `README.md`'s **This Week** section (near 
      (e.g. `` `fda` · `trials` ``). Use **exactly** the tags you wrote to [`data/trends.csv`](data/trends.csv)
      for this week — no others, no invented ones — so this table and the trend counts below it can
      never disagree. `—` if the area published nothing.
-   - **Summary** — a one-line takeaway for that area this week, or `—` if nothing from it made the top 3.
+   - **Summary** — a one-line takeaway for that area this week, then `<br>**So what:** ` and one
+     or two short sentences with the most actionable implication for the readers above, in the same
+     plain English as the So what section (8th-grade level or below), then
+     ` ([more](area/{year}-W{week}.md#so-what))` linking to that file's So what section. `—` if
+     nothing from the area made the top 3.
    - **File** — a markdown link to this week's dated file for that area (e.g. `[2026-W33](ai-engineering/2026-W33.md)`), or `—` if it wasn't in the top 3.
 
 **Leave the "📁 Previous weeks" archive pointer in place** — it sits directly under the

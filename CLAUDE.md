@@ -5,6 +5,7 @@ Conventions for the weekly research agent and for anyone (human or Claude) editi
 ## Voice & format
 
 - Write concise, skimmable summaries — a knowledgeable colleague catching Mai up, not marketing copy.
+- Readers are healthcare data scientists, ML engineers in healthcare, and healthcare executives. Every weekly file has a **So what** for them, written in plain English at an 8th-grade reading level or below (see `research-brief.md`).
 - One topic per note where practical.
 - Every citable claim carries its **source link** and a **date**.
 - Use markdown links, not bare URLs.
