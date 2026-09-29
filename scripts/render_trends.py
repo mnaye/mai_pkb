@@ -40,6 +40,18 @@ BAR_MIN_PX = 8  # a single item still has to be visible
 BAR_COLOR = "9BD3F0"  # light blue — the filled portion
 BAR_TRACK = "E7EDF3"  # pale grey — the empty remainder
 
+# Direction arrows: each topic's items in the latest RECENT_WEEKS published
+# weeks against the same number of published weeks before them. The two
+# windows are always the same length, shrinking while the ledger is young
+# (7 weeks -> 3 vs 3), so the raw counts in the tooltip compare directly.
+# Arrows are SVGs in the repo because GitHub strips CSS colour from READMEs.
+RECENT_WEEKS = 4
+ARROW = {
+    "up": ("assets/trend-up.svg", "▲ up"),
+    "down": ("assets/trend-down.svg", "▼ down"),
+    "flat": ("assets/trend-flat.svg", "– steady"),
+}
+
 START = "<!-- TRENDS:START -->"
 END = "<!-- TRENDS:END -->"
 
@@ -128,6 +140,26 @@ def bar(n, maxn):
     return "".join(parts)
 
 
+def direction(recent_n, prior_n, k):
+    """'up', 'down', 'flat', or None when there is nothing to compare."""
+    if k == 0 or (recent_n == 0 and prior_n == 0):
+        return None  # too little history, or dormant rather than steady
+    if recent_n > prior_n:
+        return "up"
+    if recent_n < prior_n:
+        return "down"
+    return "flat"
+
+
+def arrow_cell(d, recent_n, prior_n, k):
+    if d is None:
+        return "<sub>—</sub>"
+    src, word = ARROW[d]
+    tip = "%s: %d in the last %d weeks, %d in the %d before" % (
+        word, recent_n, k, prior_n, k)
+    return '<img src="%s" alt="%s" title="%s" width="12" height="12">' % (src, word, tip)
+
+
 def render(rows):
     if not rows:
         return "%s\n\n_No items logged yet._\n\n%s" % (START, END)
@@ -143,6 +175,12 @@ def render(rows):
     span_start = "%d-W%02d" % first.isocalendar()[:2]
     span_end = "%d-W%02d" % anchor.isocalendar()[:2]
 
+    # Split the published weeks, newest first, into recent and prior windows.
+    published = sorted({r["week"] for r in rows}, reverse=True)
+    k = min(RECENT_WEEKS, len(published) // 2)
+    recent_set = set(published[:k])
+    prior_set = set(published[k:2 * k])
+
     out = [START, ""]
     out.append("### 📈 Topic trends — rolling %d weeks" % WINDOW_WEEKS)
     out.append("")
@@ -150,6 +188,14 @@ def render(rows):
         "`%s` → `%s` · **%d weeks published** · **%d items** · ranked by volume, "
         "counted from [`data/trends.csv`](data/trends.csv)."
         % (span_start, span_end, len(weeks_published), len(window))
+    )
+    out.append("")
+    out.append(
+        '<sub><b>Direction:</b> <img src="%s" alt="▲" width="10" height="10"> more items in the last %d '
+        'published weeks than in the %d before · <img src="%s" alt="▼" width="10" height="10"> '
+        'fewer · <img src="%s" alt="–" width="10" height="10"> the same · — none in either. '
+        'Hover an arrow for the counts.</sub>'
+        % (ARROW["up"][0], k, k, ARROW["down"][0], ARROW["flat"][0])
     )
     out.append("")
 
@@ -162,6 +208,15 @@ def render(rows):
         # Seed every vocabulary topic at zero so a dormant one still gets a row.
         counts = dict((t, 0) for t, _ in topics)
         last_seen = {}
+        recent_n, prior_n = {}, {}
+        for r in rows:
+            if r["area"] != slug:
+                continue
+            t = r["topic"].strip()
+            if r["week"] in recent_set:
+                recent_n[t] = recent_n.get(t, 0) + 1
+            elif r["week"] in prior_set:
+                prior_n[t] = prior_n.get(t, 0) + 1
         for r in area_rows:
             t = r["topic"].strip()
             counts[t] = counts.get(t, 0) + 1
@@ -196,6 +251,7 @@ def render(rows):
             '<th align="right">#</th>'
             '<th align="left">Topic</th>'
             '<th align="left">Trend</th>'
+            '<th align="center">Direction</th>'
             '<th align="right">Items</th>'
             '<th align="left">Last seen</th>'
             '</tr>'
@@ -216,14 +272,17 @@ def render(rows):
                 )
             else:
                 seen_cell = "<sub>—</sub>"
+            rn, pn = recent_n.get(topic, 0), prior_n.get(topic, 0)
+            arrows = arrow_cell(direction(rn, pn, k), rn, pn, k)
             out.append(
                 '<tr>'
                 '<td align="right"><sub>%d</sub></td>'
                 '<td>%s</td>'
                 '<td>%s</td>'
+                '<td align="center">%s</td>'
                 '<td align="right"><b>%d</b></td>'
                 '<td>%s</td>'
-                '</tr>' % (rank, name, bar(n, maxn), n, seen_cell)
+                '</tr>' % (rank, name, bar(n, maxn), arrows, n, seen_cell)
             )
         out.append("</table>")
         out.append("")
