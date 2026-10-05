@@ -33,3 +33,4 @@ week,date,area,topic,headline,url
 2026-W40,2026-09-22,ai-engineering,models,"Claude Opus 5.5 matches Opus 5 in half the turns at 20% lower price",https://www.anthropic.com/claude-opus-5-5
 2026-W40,2026-09-22,ai-engineering,context,"vectorize-io/hindsight tops the weekly board (+11.1k) on agent memory",https://github.com/vectorize-io/hindsight
 2026-W40,2026-09-22,healthcare,fda,"FDA direct final rule swaps 'animal' for 'nonclinical' across 21 CFR",https://www.federalregister.gov/documents/2026/09/22/2026-19350/nonclinical-testing-terminology
+2026-W41,2026-09-30,ai-engineering,models,"Gemini 4 Argon ships to cyber defenders first with 1M output tokens",https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/
