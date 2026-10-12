@@ -154,13 +154,13 @@ flowchart LR
     subgraph S1[" ⏰ TRIGGER "]
         direction TB
         CRON["🗓️ Weekly cron<br/>Mondays 09:00 UTC"]
-        RETRY["🔁 Retry cron<br/>Tuesdays · no-ops if Monday landed"]
+        RETRY["🔁 Retry cron<br/>Tuesdays · fills only missing areas"]
         MANUAL["👆 Run workflow<br/>manual dispatch"]
     end
 
     subgraph S2[" 🎛️ GOVERNOR "]
         direction TB
-        PLAN["📋 Plan the run<br/>ISO week · scope<br/>skip if already published"]
+        PLAN["📋 Plan the run<br/>ISO week · scope<br/>per-area: skip, full, or gap-fill"]
         CAPS["🚧 Hard caps<br/>max-turns · timeout<br/>concurrency · budget"]
     end
 
@@ -217,7 +217,7 @@ flowchart LR
 
 **⏰ Trigger** — [`.github/workflows/weekly-research.yml`](.github/workflows/weekly-research.yml) fires on a cron (Mondays 09:00 UTC), with a Tuesday retry and a manual **Run workflow** button.
 
-➊ **Plan the run** — resolves this week's ISO week, scope, and dated filenames, and skips the whole run if the week already published.<br/>
+➊ **Plan the run** — resolves this week's ISO week, scope, and dated filenames, and checks each area separately: it skips a complete week, and a retry after a partial run researches only the missing area, leaving published briefs untouched.<br/>
 ➋ **Launch under caps** — starts **`anthropics/claude-code-action`** headless with the areas, the ISO week, and a per-area search/fetch budget, bounded by a hard turn cap and job timeout.<br/>
 ➌ **Load the Brain** — Claude reads [`research-brief.md`](research-brief.md), [`CLAUDE.md`](CLAUDE.md), and the per-area guides in [`skills/`](skills/).<br/>
 ➍ **Research** — WebSearch and WebFetch against the sources each skill prioritizes, until the budget is spent.<br/>

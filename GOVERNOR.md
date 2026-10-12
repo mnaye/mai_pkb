@@ -25,7 +25,8 @@ makes a run that *does* get cut short still leave something behind.
 | `timeout-minutes: 25` | job level | The runner kills the job on wall clock. **The only true hard stop.** |
 | `concurrency: weekly-research` | workflow level | Two runs can never overlap and double-spend. |
 | `--disallowedTools Task` | `claude_args` | No subagents. |
-| Already-published guard | `Plan the run` step | Re-runs no-op if this week's files already exist. |
+| Already-published guard | `Plan the run` step | Checks each area separately. Skips if the week is complete; otherwise researches only the missing areas (gap-fill). |
+| Published-brief guard | `Protect already-published briefs` step | On a gap-fill retry, restores any already-published brief the agent changed, with a warning. |
 
 **`--max-turns` does not stop the run.** Measured, not assumed: run 32644519184 was
 configured with `--max-turns 20`, ran to **27 turns**, reported `subtype: success`, and
@@ -100,8 +101,23 @@ The agent is instructed to **commit after each area** rather than saving all wri
 the end. A run that dies at turn 18 of 20 then still publishes one area's research instead
 of nothing. This is the single most important instruction in the prompt.
 
-Backing it up: a **Tuesday 09:00 UTC retry cron**. The already-published guard makes it a
-no-op if Monday's run landed. If Monday died on a usage limit, Tuesday picks the week up.
+Backing it up: a **Tuesday 09:00 UTC retry cron**, which checks each area separately:
+
+- **Week complete → skip.** Complete means the run log has an `ok` row for this week, or every
+  area's dated file exists. The run log matters because an area can legitimately publish nothing
+  (`—` in the README) and so have no file. The log is written by the workflow, not the agent,
+  so it is a reliable signal that Monday finished.
+- **Nothing published → full run.** Monday died before its first commit.
+- **Some areas published → gap-fill.** Monday died between areas, which is exactly what
+  commit-after-each-area makes likely. Tuesday researches **only the missing areas**, and the
+  prompt tells the agent the published files are off-limits. The plan step fingerprints each
+  published file, and the `Protect already-published briefs` step after the agent restores any
+  that changed, with a warning on the run page. A single-area retry also costs about half a
+  normal run, because the search/fetch budget is per area.
+
+Before 2026-W42 the guard skipped the whole run if *any* of the week's files existed, so a run
+that died after one area silently lost the other: the retry was disabled by the exact failure
+it existed for.
 
 ## Turning the dials
 

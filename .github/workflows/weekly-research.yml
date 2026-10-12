@@ -20,7 +20,8 @@ name: Weekly Research
 on:
   schedule:
     - cron: '0 9 * * 1'   # Mondays 09:00 UTC — the real run
-    - cron: '0 9 * * 2'   # Tuesdays 09:00 UTC — retry; no-ops if Monday landed
+    - cron: '0 9 * * 2'   # Tuesdays 09:00 UTC — retry; no-ops if Monday landed,
+                          # researches only the missing area if Monday died halfway
   workflow_dispatch:
     inputs:
       force:
@@ -87,25 +88,65 @@ jobs:
             echo "Areas overridden by hand: $SLUGS"
           fi
 
-          # Human-readable names + the dated file each area writes this week.
-          NAMES=""; FILES=""; EXISTING=""
+          # Check each area separately. An area whose dated file already exists
+          # was published by an earlier run this week; only the rest need work.
+          MISSING=""; DONE_FILES=""; DONE_NAMES=""; PROTECT=""
+          for s in $SLUGS; do
+            f="$s/$YEAR-W$WEEK.md"
+            if [ -f "$f" ]; then
+              DONE_FILES="${DONE_FILES:+$DONE_FILES, }$f"
+              DONE_NAMES="${DONE_NAMES:+$DONE_NAMES, }$s"
+              # Fingerprint it, so the guard after the agent can prove it
+              # wasn't rewritten (and put it back if it was).
+              PROTECT="${PROTECT:+$PROTECT }$f:$(git hash-object "$f")"
+            else
+              MISSING="${MISSING:+$MISSING }$s"
+            fi
+          done
+
+          # Did an earlier run this week finish? The run log is written by this
+          # workflow, not the agent, so an ok row is a reliable "week complete".
+          # This matters because an area can legitimately publish nothing ("—"
+          # in the README) and so have no file; without this check, Tuesday
+          # would re-research it.
+          WEEK_DONE=false
+          if [ -f .governor/run-log.csv ] && awk -F, -v w="$YEAR-W$WEEK" \
+               '$3 == w && ($11 == "ok" || $11 ~ /research OK/) { found = 1 } END { exit !found }' \
+               .governor/run-log.csv; then
+            WEEK_DONE=true
+          fi
+
+          SKIP=false; MODE=full
+          if [ "${INPUT_FORCE:-}" = "true" ]; then
+            PROTECT=""
+            echo "::notice::force=true — researching every area: $SLUGS"
+          elif [ "$WEEK_DONE" = "true" ] || [ -z "$MISSING" ]; then
+            SKIP=true
+            echo "::notice::This week is already complete — skipping. Re-run with force=true to override."
+          elif [ -n "$DONE_FILES" ]; then
+            # A partial publish: an earlier run died after committing some
+            # areas. Research only the missing ones and leave the rest alone.
+            MODE=gap-fill
+            SLUGS="$MISSING"
+            echo "::notice::Gap-fill retry — already published: $DONE_FILES. Researching only: $SLUGS"
+          fi
+
+          # Human-readable names + the dated file each area writes this run.
+          NAMES=""; FILES=""
           for s in $SLUGS; do
             case "$s" in
               ai-engineering) n="AI Engineering" ;;
               healthcare)     n="Healthcare Trends" ;;
               *)              n="$s" ;;
             esac
-            f="$s/$YEAR-W$WEEK.md"
             NAMES="${NAMES:+$NAMES, }$n ($s/)"
-            FILES="${FILES:+$FILES, }$f"
-            if [ -f "$f" ]; then EXISTING="${EXISTING:+$EXISTING }$f"; fi
+            FILES="${FILES:+$FILES, }$s/$YEAR-W$WEEK.md"
           done
 
-          # Idempotency guard: the Tuesday retry must no-op if Monday landed.
-          SKIP=false
-          if [ -n "$EXISTING" ] && [ "${INPUT_FORCE:-}" != "true" ]; then
-            SKIP=true
-            echo "::notice::Already published this week ($EXISTING) — skipping. Re-run with force=true to override."
+          if [ "$MODE" = "gap-fill" ]; then
+            SCOPE_NOTE="GAP-FILL RETRY: an earlier run this week already published $DONE_FILES. Do not edit, rewrite, rename or re-commit those files, and do not add data/trends.csv rows for them; they are already logged. Research and write ONLY the areas listed above, and pick this week's items from them alone. You may Read the published files, but only to write README.md's This Week section, which must still cover every area for the week."
+          else
+            SCOPE_NOTE="These are the only two areas this knowledge base tracks."
           fi
 
           # What's coming due, computed here so the agent never spends a turn
@@ -121,6 +162,9 @@ jobs:
             echo "names=$NAMES"
             echo "files=$FILES"
             echo "skip=$SKIP"
+            echo "mode=$MODE"
+            echo "protect=$PROTECT"
+            echo "scope_note=$SCOPE_NOTE"
             echo "followups<<FOLLOWUPS_EOF"
             echo "$FOLLOWUPS"
             echo "FOLLOWUPS_EOF"
@@ -132,7 +176,9 @@ jobs:
             echo "| | |"
             echo "| --- | --- |"
             echo "| ISO week | \`$YEAR-W$WEEK\` |"
-            echo "| Areas | $NAMES |"
+            echo "| Mode | $MODE |"
+            echo "| Areas | ${NAMES:-—} |"
+            echo "| Already published | ${DONE_FILES:-—} |"
             echo "| Model | \`$GOV_MODEL\` |"
             echo "| Turn cap | $GOV_MAX_TURNS |"
             echo "| Budget per area | $GOV_SEARCHES_PER_AREA searches / $GOV_FETCHES_PER_AREA fetches |"
@@ -170,7 +216,7 @@ jobs:
             more than covering one more source.
 
             - Focus areas: ${{ steps.plan.outputs.names }}.
-              These are the only two areas this knowledge base tracks.
+              ${{ steps.plan.outputs.scope_note }}
               Research nothing outside them.
             - ISO week: ${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}.
               Use exactly this — do not recompute the week yourself.
@@ -208,6 +254,38 @@ jobs:
               jargon explained in plain words the first time.
             - Update README.md's "This Week" section last, then commit again.
               Use "—" for an area that produced nothing worth publishing.
+
+      # ── Gap-fill guard: already-published briefs stay exactly as they were ─
+      # The prompt tells the agent not to touch them; this makes sure. Each was
+      # fingerprinted in the plan step. Anything changed (or deleted) is put
+      # back from that fingerprint and pushed, with a warning on the run page.
+      # Runs before tagging, so the tagger's own stamps are never undone.
+      - name: Protect already-published briefs
+        if: always() && steps.plan.outputs.mode == 'gap-fill'
+        env:
+          PROTECT: ${{ steps.plan.outputs.protect }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          RESTORED=""
+          for pair in $PROTECT; do
+            f="${pair%%:*}"; h="${pair##*:}"
+            if [ "$(git hash-object "$f" 2>/dev/null || true)" != "$h" ]; then
+              git cat-file -p "$h" > "$f"
+              RESTORED="${RESTORED:+$RESTORED }$f"
+            fi
+          done
+          if [ -z "$RESTORED" ]; then
+            echo "Already-published briefs untouched: $PROTECT"
+            exit 0
+          fi
+          echo "::warning title=Gap-fill guard::The agent changed already-published briefs; restored: $RESTORED"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add $RESTORED
+          git commit -m "governor: restore already-published brief(s) after gap-fill retry"
+          git pull --rebase --autostash origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
 
       # ── Tagging + trend table — deterministic, zero model tokens ─────────
       # Everything derivable from data/trends.csv is computed here rather than
