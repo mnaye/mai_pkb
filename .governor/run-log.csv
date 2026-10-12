@@ -7,3 +7,4 @@ date,run_id,week,areas,model,conclusion,turns,cost_usd,duration_s,denials,note
 2026-09-21,35618518112,2026-W39,ai-engineering+healthcare,claude-opus-5,success,34,1.8427839999999995,281,0,ok
 2026-09-28,36455647973,2026-W40,ai-engineering+healthcare,claude-opus-5,success,28,1.5643195,255,0,ok
 2026-10-05,37348779648,2026-W41,ai-engineering+healthcare,claude-opus-5-5,success,25,1.1803031999999998,189,0,ok
+2026-10-12,38289805102,2026-W42,ai-engineering+healthcare,claude-opus-5-5,success,27,0.9742177,158,0,ok
