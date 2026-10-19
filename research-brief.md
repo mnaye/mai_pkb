@@ -223,4 +223,15 @@ Weekly research: {YYYY-MM-DD}
 - **Never invent links, names, or facts.** Only include items you actually found and can link to a real source.
 - If you cannot find 3 genuinely notable developments in a given week, publish fewer rather than padding.
 - Prefer primary sources (the repo, the paper, the official release/announcement) over secondary coverage.
+- **Every published item links to its own source.** An item's first link, and the `url` in its
+  `data/trends.csv` row, must be the page that supports it: the article, the agency document, the
+  repo, the release post. **Never a homepage, a search page, or an index** (a news front page, a
+  newsroom, the GitHub trending board, a changelog). Those change daily, so months later nobody can
+  check what the brief said or why. If you only reached a story through a front page or a search,
+  and can't get to its own page within budget, it can't be a published item. Put it under
+  **Also noted** or **Caveats**, marked unconfirmed.
+- **Check before you commit.** Run `python3 scripts/check_sources.py <area file>` in the same shell
+  call as that area's commit, chained with `&&`, so a flagged link stops the commit. It checks the
+  file's items and its trends.csv rows. Fix what it flags (link the direct page, or move the item
+  out of Items), then commit.
 - Attribute curation to **"Mai with Claude"** where relevant.

@@ -252,6 +252,14 @@ jobs:
               and the README so-what lines, in plain English at an 8th-grade
               reading level or below: short sentences, everyday words, and any
               jargon explained in plain words the first time.
+            - SOURCE LINKS: every published item's first link, and its
+              trends.csv url, must be that item's own page (article, agency
+              document, repo, release post), never a homepage, search page or
+              index. Commit each area as:
+                python3 scripts/check_sources.py <area file> && git add ... && git commit ...
+              If the check fails, link the direct page or move the item to Also
+              noted (marked unconfirmed), then commit. Don't spend searches
+              just to rescue a link; moving the item is fine.
             - Update README.md's "This Week" section last, then commit again.
               Use "—" for an area that produced nothing worth publishing.
 
@@ -310,6 +318,10 @@ jobs:
           # fails the job, because by now the week is already published.
           { echo ""; echo "### 📖 So what check"; echo "";
             python3 scripts/readability.py --week "$RUN_WEEK" --annotate || echo "_so-what check failed_"; } >> "$GITHUB_STEP_SUMMARY"
+          # Source-link backstop: the agent runs this before each commit; this
+          # catches anything that got through. Warns, never fails the job.
+          { echo ""; echo "### 🔗 Source link check"; echo "";
+            python3 scripts/check_sources.py --week "$RUN_WEEK" --annotate || true; } >> "$GITHUB_STEP_SUMMARY"
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # $GOV_AREAS is unquoted on purpose — it is a space-separated list.

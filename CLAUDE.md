@@ -20,6 +20,7 @@ Conventions for the weekly research agent and for anyone (human or Claude) editi
 
 - **Never fabricate** links, names, papers, or facts. If unsure, leave it out.
 - Prefer primary sources over secondary coverage.
+- Every published item links to its own page, never a homepage, search page or index. `scripts/check_sources.py` enforces it.
 
 ## Cadence
 
