@@ -41,3 +41,5 @@ week,date,area,topic,headline,url
 2026-W43,2026-10-15,ai-engineering,models,"Meta releases Muse Spark Open, an 816B open-weight MoE under the Muse Model License",https://thenewstack.io/meta-muse-spark-open/
 2026-W43,2026-10-19,ai-engineering,skills-tooling,"anthropics/claude-plugins-official gains ~4.8k stars as vendor-run plugin directories trend",https://github.com/anthropics/claude-plugins-official
 2026-W44,2026-10-20,healthcare,fda,"FDA finalizes prescription drug app/software guidance: most companion-app content treated as promotional",https://www.fda.gov/news-events/press-announcements/fda-issues-final-guidance-prescription-drug-apps-and-software
+2026-W44,2026-10-26,ai-engineering,skills-tooling,"cloudflare/security-audit-skill — adversarially verified security-audit skill for coding agents (+15k stars)",https://github.com/cloudflare/security-audit-skill
+2026-W44,2026-10-21,ai-engineering,agents,"Anthropic launches Claude Duet, a proactive background agent, as a US Pro/Max research preview",https://macrumors.com/2026/10/21/anthropic-claude-duet/
