@@ -113,6 +113,34 @@ Each weekly file should contain:
   - **Don't overstate the item.** If the source says a rule changes wording and keeps the safety
     standard, the so-what can't say the standard dropped.
 
+  **Save evidence for adversarial review.** For every factual statement in `## So what`, save the
+  exact, short source passage that supports or qualifies it in
+  `reviews/{year}-W{week}/{area}-evidence.json`. Include the source title, direct URL, source date
+  when known, retrieval date, and an `excerpt` copied exactly from a page fetched during research.
+  Keep excerpts to 25 words or fewer. Do not write evidence from memory or infer passages from a
+  source title. If a statement has no passage, leave it unsupported in the evidence file; the
+  reviewer must be able to mark it insufficient. This evidence is an input to a second, fresh
+  Claude context, not a record of the writer's reasoning.
+
+  Evidence file shape:
+
+  ```json
+  {
+    "week": "2026-W44",
+    "area": "healthcare",
+    "draft": "healthcare/2026-W44.md",
+    "sources": [
+      {
+        "title": "Source title",
+        "url": "https://example.org/direct-document",
+        "source_date": "2026-10-26",
+        "retrieved_at": "2026-10-26",
+        "excerpts": ["Exact passage from the fetched source."]
+      }
+    ]
+  }
+  ```
+
 ## Update the index
 
 After writing the topic files, update `README.md`'s **This Week** section (near the top of the README) so it reflects only the current week. Replace **only these two things**:

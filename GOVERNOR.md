@@ -21,7 +21,7 @@ makes a run that *does* get cut short still leave something behind.
 
 | Control | Where | Effect |
 | --- | --- | --- |
-| `--max-turns` | `claude_args` | **Assertion, not a brake** — see below. |
+| `--max-turns` | `claude_args` | **Assertion, not a brake** — see below. The claim reviewer has a separate 12-turn cap. |
 | `timeout-minutes: 25` | job level | The runner kills the job on wall clock. **The only true hard stop.** |
 | `concurrency: weekly-research` | workflow level | Two runs can never overlap and double-spend. |
 | `--disallowedTools Task` | `claude_args` | No subagents. |
@@ -55,6 +55,11 @@ The prompt hands the agent a per-area cap on `WebSearch` (5) and `WebFetch` (4) 
 a "land the plane" instruction. Fetches are capped tighter than searches because a fetch
 pulls a whole article into context — it is the token-heaviest thing the agent does, and the
 first dial to turn.
+
+After drafting, a separate fresh-context Claude invocation reviews only each `## So what`
+section against saved source excerpts. It has a 12-turn assertion cap, no web or shell access,
+and writes an advisory report with fixture results. The run log's turns, cost and duration
+include both invocations; findings do not block publication in this first report-only version.
 
 Unlike layer 1, **these are advisory**. The agent reads them and generally complies, but
 nothing enforces them; only the turn cap, the timeout, and the tool denials are hard. The skills in [`skills/`](skills/) say *where* to look; the

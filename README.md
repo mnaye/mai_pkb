@@ -169,12 +169,15 @@ flowchart LR
 
     subgraph S3[" 🤖 AGENT "]
         direction TB
-        CLAUDE["Claude Code · headless<br/>claude-code-action<br/>WebSearch · WebFetch · Read · Write · git"]
+        CLAUDE["Research writer · Claude Code<br/>WebSearch · WebFetch · Read · Write · git"]
+        REVIEWER["Claim challenger · fresh context<br/>Read draft + saved excerpts<br/>No web access · report only"]
     end
 
     subgraph S4[" 📚 OUTPUT "]
         direction TB
         FILES["📄 Dated briefs<br/>area/YYYY-Www.md"]
+        EVIDENCE["🔎 Saved evidence<br/>reviews/YYYY-Www/*-evidence.json"]
+        REPORT["🧾 Review report<br/>reviews/YYYY-Www/claim-review.json"]
         RDME["📌 README<br/>This Week table"]
     end
 
@@ -191,14 +194,22 @@ flowchart LR
     BRAIN  -.->|"➌ loads instructions"| CLAUDE
     CLAUDE <-->|"➍ search · scrape"| WEB
     CLAUDE -->|"➎ writes"| FILES
+    CLAUDE -->|"saves exact passages"| EVIDENCE
+    FILES --> REVIEWER
+    EVIDENCE -->|"draft + supplied evidence"| REVIEWER
+    REVIEWER -->|"advisory findings"| REPORT
     CLAUDE -->|"➏ refreshes"| RDME
     FILES  --> REPO
+    EVIDENCE --> REPO
+    REPORT --> REPO
     RDME   --> REPO
     CLAUDE -.->|"➐ accounting"| LOG
+    REVIEWER -.->|"review usage"| LOG
 
     classDef trig  fill:#fef3c7,stroke:#f59e0b,stroke-width:1.5px,color:#78350f;
     classDef gov   fill:#e2e8f0,stroke:#64748b,stroke-width:1.5px,color:#1e293b;
     classDef agent fill:#ede9fe,stroke:#8b5cf6,stroke-width:1.5px,color:#4c1d95;
+    classDef reviewer fill:#fce7f3,stroke:#db2777,stroke-width:1.5px,color:#831843;
     classDef brain fill:#e0f2fe,stroke:#0ea5e9,stroke-width:1.5px,color:#075985;
     classDef web   fill:#dcfce7,stroke:#22c55e,stroke-width:1.5px,color:#14532d;
     classDef out   fill:#ffe4e6,stroke:#f43f5e,stroke-width:1.5px,color:#881337;
@@ -207,9 +218,10 @@ flowchart LR
     class CRON,RETRY,MANUAL trig;
     class PLAN,CAPS gov;
     class CLAUDE agent;
+    class REVIEWER reviewer;
     class BRAIN brain;
     class WEB web;
-    class FILES,RDME out;
+    class FILES,EVIDENCE,REPORT,RDME out;
     class REPO,LOG store;
 
     style S1 fill:#fffbeb,stroke:#f59e0b,stroke-width:2px,color:#78350f;
@@ -224,8 +236,10 @@ flowchart LR
 ➋ **Launch under caps** — starts **`anthropics/claude-code-action`** headless with the areas, the ISO week, and a per-area search/fetch budget, bounded by a hard turn cap and job timeout.<br/>
 ➌ **Load the Brain** — Claude reads [`research-brief.md`](research-brief.md), [`CLAUDE.md`](CLAUDE.md), and the per-area guides in [`skills/`](skills/).<br/>
 ➍ **Research** — WebSearch and WebFetch against the sources each skill prioritizes, until the budget is spent.<br/>
-➎➏ **Write** — the dated brief for each area, then this README's *This Week* table — **committing after each area**, so a run cut short still publishes what it finished.<br/>
-➐ **Accounting** — records turns, cost, and why the run ended in [`.governor/run-log.csv`](.governor/run-log.csv) and the job summary.
+➎ **Write and save evidence** — the dated briefs and short, exact source passages used for their *So what* claims.<br/>
+➏ **Update the index** — refreshes this README's *This Week* table after the area briefs are written.<br/>
+➐ **Challenge claims** — a separate Claude context reviews only *So what* against saved evidence, then publishes an advisory report to `reviews/{year}-W{week}/`; it cannot browse the web, and findings do not block publication. Five fixtures test whether the reviewer catches a proposal called final, a vendor benchmark called independent, a recommendation called a legal requirement, an old announcement called current, and whether it leaves a supported statement alone. A fresh context helps challenge assumptions but does not guarantee independent verification.<br/>
+➑ **Account** — records research and review turns, cost, and outcome in [`.governor/run-log.csv`](.governor/run-log.csv) and the job summary. Briefs are committed after each area so a run cut short still publishes what it finished.
 
 See [GOVERNOR.md](GOVERNOR.md) for the dials and how to turn them.
 

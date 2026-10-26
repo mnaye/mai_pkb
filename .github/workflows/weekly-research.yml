@@ -54,6 +54,7 @@ env:
   # prompt, new rows ride the trends.csv shell call, closing a row is 1 edit.
   # NOTE: this is an assertion, not a brake — see GOVERNOR.md.
   GOV_MAX_TURNS: '40'
+  GOV_REVIEW_MAX_TURNS: '12'   # separate fresh-context claim-review invocation
   GOV_SEARCHES_PER_AREA: '5'   # WebSearch calls the agent may spend per area
   GOV_FETCHES_PER_AREA: '4'    # WebFetch (page scrape) calls per area — the
                                # token-heaviest call; tighten this dial first
@@ -252,6 +253,12 @@ jobs:
               and the README so-what lines, in plain English at an 8th-grade
               reading level or below: short sentences, everyday words, and any
               jargon explained in plain words the first time.
+            - REVIEW EVIDENCE: save exact source excerpts for factual So what
+              statements in reviews/${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}/<area>-evidence.json,
+              using the schema in research-brief.md. Excerpts must come from
+              pages fetched this run and be 25 words or fewer. Commit the evidence
+              file with its area. Do not save private reasoning or unsupported
+              paraphrases; missing evidence is for the reviewer to flag.
             - SOURCE LINKS: every published item's first link, and its
               trends.csv url, must be that item's own page (article, agency
               document, repo, release post), never a homepage, search page or
@@ -262,6 +269,97 @@ jobs:
               just to rescue a link; moving the item is fine.
             - Update README.md's "This Week" section last, then commit again.
               Use "—" for an area that produced nothing worth publishing.
+
+      # This is a separate action invocation: the challenger sees the saved
+      # draft and evidence, not the writer's context or private reasoning.
+      - uses: anthropics/claude-code-action@v1
+        id: claim-review
+        if: always() && steps.plan.outputs.skip != 'true'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          display_report: true
+          claude_args: >-
+            --model ${{ env.GOV_MODEL }}
+            --max-turns ${{ env.GOV_REVIEW_MAX_TURNS }}
+            --allowedTools Read,Write
+            --disallowedTools Task,WebSearch,WebFetch,Bash,Edit
+          prompt: |
+            You are the adversarial reviewer, running in a fresh context separate
+            from the writer. Review only the "## So what" section of each existing
+            draft named below. Read its paired evidence JSON at
+            reviews/${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}/<area>-evidence.json, and
+            tests/fixtures/claim-review-cases.json. Do not use web access or infer
+            missing source text from memory.
+
+            Try to find statements whose certainty or scope exceeds the supplied
+            evidence. Cite the exact statement and supporting or conflicting
+            passage. If evidence is missing, mark it insufficient. A fresh context
+            helps challenge assumptions; it does not guarantee independent
+            verification.
+            Use exactly "unsupported" or "insufficient evidence" for assessment.
+
+            Check whether each statement is supported, whether vendor claims are
+            attributed, whether proposals/recommendations became requirements,
+            whether So what adds factual implications absent from evidence, and
+            whether announcement, publication, comment, and effective dates are
+            distinguished. Clearly labeled recommendations may remain suggestions;
+            do not present them as sourced facts.
+
+            Write exactly one JSON report to
+            reviews/${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}/claim-review.json
+            using this shape:
+            {
+              "week": "${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}",
+              "reviews": [{"area":"healthcare","findings":[{
+                "sentence":"exact draft sentence",
+                "category":"evidence_support|attribution|policy_status|implications|timing",
+                "assessment":"unsupported",
+                "severity":"high|medium|low",
+                "reason":"why it exceeds or conflicts with the evidence",
+                "evidence_excerpt":"exact supplied passage, or empty string",
+                "source_url":"URL from evidence, or empty string",
+                "suggested_correction":"specific qualified replacement"
+              ]}],
+              "fixture_results": [{"id":"fixture id","flagged":true,
+                "category":"expected category or null",
+                "evidence_excerpt":"exact fixture passage"}]
+            }
+            Include a review entry for every existing draft, even with no findings.
+            Include one result for every fixture ID. Flag the four flawed examples
+            and leave the supported control unflagged. Do not report supported
+            draft statements as findings. Missing evidence files must be represented
+            by empty evidence, not silently skipped. Output valid JSON only.
+
+            Week: ${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}
+            Areas to inspect: ${{ steps.plan.outputs.slugs }}
+
+      - name: Validate and publish claim review report
+        if: always() && steps.plan.outputs.skip != 'true'
+        env:
+          RUN_WEEK: ${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          report="reviews/$RUN_WEEK/claim-review.json"
+          if [ -f "$report" ]; then
+            python3 scripts/check_claim_review.py "$report" --evidence-dir "reviews/$RUN_WEEK" --annotate >> "$GITHUB_STEP_SUMMARY" || true
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "$report"
+            for evidence in "reviews/$RUN_WEEK"/*-evidence.json; do
+              [ -f "$evidence" ] && git add "$evidence"
+            done
+            if ! git diff --staged --quiet; then
+              git commit -m "review: challenge So what claims for $RUN_WEEK"
+              git pull --rebase --autostash origin "$BRANCH"
+              git push origin "HEAD:$BRANCH"
+            fi
+          else
+            echo "### Claim review" >> "$GITHUB_STEP_SUMMARY"
+            echo "Reviewer did not produce a report; publication was not blocked." >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning title=Claim review unavailable::No review report was produced for $RUN_WEEK"
+          fi
 
       # ── Gap-fill guard: already-published briefs stay exactly as they were ─
       # The prompt tells the agent not to touch them; this makes sure. Each was
@@ -340,11 +438,13 @@ jobs:
           RUN_WEEK: ${{ steps.plan.outputs.year }}-W${{ steps.plan.outputs.week }}
           RUN_ID: ${{ github.run_id }}
           EXEC_FILE: ${{ steps.claude.outputs.execution_file }}
+          REVIEW_EXEC_FILE: ${{ steps.claim-review.outputs.execution_file }}
           CONCLUSION: ${{ steps.claude.outputs.conclusion || job.status }}
         run: |
           set -uo pipefail
 
           TURNS=""; COST=""; DURATION=""; DENIALS=""; SUBTYPE=""; NOTE=""
+          REVIEW_TURNS=""; REVIEW_COST=""; REVIEW_DURATION=""
 
           if [ -n "${EXEC_FILE:-}" ] && [ -f "$EXEC_FILE" ]; then
             RESULT=$(jq -c -s '[.. | objects | select(.type == "result")] | last // {}' "$EXEC_FILE" 2>/dev/null || echo '{}')
@@ -378,6 +478,20 @@ jobs:
             NOTE="no execution file (${CONCLUSION})"
           fi
 
+          if [ -n "${REVIEW_EXEC_FILE:-}" ] && [ -f "$REVIEW_EXEC_FILE" ]; then
+            REVIEW_RESULT=$(jq -c -s '[.. | objects | select(.type == "result")] | last // {}' "$REVIEW_EXEC_FILE" 2>/dev/null || echo '{}')
+            REVIEW_TURNS=$(echo "$REVIEW_RESULT" | jq -r '.num_turns // ""')
+            REVIEW_COST=$(echo "$REVIEW_RESULT" | jq -r '.total_cost_usd // ""')
+            REVIEW_DURATION=$(echo "$REVIEW_RESULT" | jq -r 'if .duration_ms then (.duration_ms / 1000 | floor) else "" end')
+          fi
+          TOTAL_TURNS=$(( ${TURNS:-0} + ${REVIEW_TURNS:-0} ))
+          TOTAL_DURATION=$(( ${DURATION:-0} + ${REVIEW_DURATION:-0} ))
+          TOTAL_COST=""
+          if [ -n "$COST" ] || [ -n "$REVIEW_COST" ]; then
+            TOTAL_COST=$(awk -v research="${COST:-0}" -v review="${REVIEW_COST:-0}" \
+              'BEGIN { printf "%.6f", research + review }')
+          fi
+
           # Commas would corrupt the CSV row.
           NOTE=$(echo "$NOTE" | tr ',' ';')
 
@@ -392,7 +506,7 @@ jobs:
             "$RUN_ID" \
             "$RUN_WEEK" \
             "$(echo "$RUN_SLUGS" | tr ' ' '+')" \
-            "$GOV_MODEL" "$CONCLUSION" "$TURNS" "$COST" "$DURATION" "$DENIALS" "$NOTE" \
+            "$GOV_MODEL" "$CONCLUSION" "$TOTAL_TURNS" "$TOTAL_COST" "$TOTAL_DURATION" "$DENIALS" "$NOTE" \
             >> .governor/run-log.csv
 
           {
@@ -402,9 +516,9 @@ jobs:
             echo "| Metric | Value |"
             echo "| --- | --- |"
             echo "| Conclusion | \`$CONCLUSION\` — $NOTE |"
-            echo "| Turns | ${TURNS:-?} / $GOV_MAX_TURNS |"
-            echo "| Cost (API-equivalent) | ${COST:-?} |"
-            echo "| Duration | ${DURATION:-?}s |"
+            echo "| Turns (research + review) | ${TOTAL_TURNS:-?} / $((GOV_MAX_TURNS + GOV_REVIEW_MAX_TURNS)) (${TURNS:-?} + ${REVIEW_TURNS:-?}) |"
+            echo "| Cost (API-equivalent, research + review) | ${TOTAL_COST:-?} (${COST:-?} + ${REVIEW_COST:-?}) |"
+            echo "| Duration (research + review) | ${TOTAL_DURATION:-?}s |"
             echo "| Permission denials | ${DENIALS:-?} |"
             case "$NOTE" in
               *"research OK"*)

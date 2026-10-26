@@ -1,0 +1,37 @@
+[
+  {
+    "id": "proposal-as-final",
+    "statement": "The agency finalized the new reporting policy.",
+    "evidence": "The agency is seeking comment on this proposed policy through November 30.",
+    "expected_flag": true,
+    "expected_category": "policy_status"
+  },
+  {
+    "id": "vendor-benchmark-as-independent",
+    "statement": "The system is independently verified to be 40% more accurate.",
+    "evidence": "In our internal benchmark, the system was 40% more accurate than the baseline.",
+    "expected_flag": true,
+    "expected_category": "attribution"
+  },
+  {
+    "id": "recommendation-as-legal-requirement",
+    "statement": "Clinics are legally required to review every model output.",
+    "evidence": "We recommend that clinics consider reviewing model outputs as part of local safety planning.",
+    "expected_flag": true,
+    "expected_category": "policy_status"
+  },
+  {
+    "id": "old-announcement-as-current",
+    "statement": "This week, the agency announced the new program.",
+    "evidence": "The agency announced the program on September 14, 2026.",
+    "expected_flag": true,
+    "expected_category": "timing"
+  },
+  {
+    "id": "supported-control",
+    "statement": "The agency published the final rule on October 26, 2026.",
+    "evidence": "The final rule was published on October 26, 2026.",
+    "expected_flag": false,
+    "expected_category": null
+  }
+]
