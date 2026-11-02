@@ -1,0 +1,167 @@
+{
+  "week": "2026-W45",
+  "reviews": [
+    {
+      "area": "ai-engineering",
+      "findings": [
+        {
+          "sentence": "**Healthcare data scientists:** **GPT-6.1 Terra** costs $1 for every million tokens (small chunks of text) it reads, and $5 per million it writes.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The supplied evidence contains no per-token prices. The only pricing excerpt is a relative claim ('50% lower than...'), so the $1 / $5 figures cannot be checked against the evidence.",
+          "evidence_excerpt": "",
+          "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-launches-gpt-61-terra-with-3x-faster-ai-agents-50-percent-lower-pricing/",
+          "suggested_correction": "Add the source passage that gives the $1 / $5 per-million-token prices to the evidence, or say: \"BleepingComputer reports that GPT-6.1 Terra is priced 50% lower than GPT-5.6 Terra and GPT-6.1 Sol.\""
+        },
+        {
+          "sentence": "That is half the price of the models it sits beside.",
+          "category": "attribution",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "This states a vendor pricing comparison as unattributed fact. It also widens the scope from the two named models to 'the models it sits beside'. The evidence compares only against GPT-5.6 Terra and GPT-6.1 Sol.",
+          "evidence_excerpt": "50% lower than GPT-5.6 Terra and GPT-6.1 Sol.",
+          "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-launches-gpt-61-terra-with-3x-faster-ai-agents-50-percent-lower-pricing/",
+          "suggested_correction": "According to BleepingComputer's report of OpenAI's pricing, that is 50% lower than GPT-5.6 Terra and GPT-6.1 Sol."
+        },
+        {
+          "sentence": "**ML engineers in healthcare:** OpenAI's speed and error numbers for **Terra** come from its own tests.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The supplied excerpts include no speed figures. The error-rate excerpt does not say the benchmark is OpenAI-internal, so the provenance claim cannot be confirmed from the evidence. Flagging the claim as vendor-sourced is the cautious direction, but it still needs support.",
+          "evidence_excerpt": "dropped from 53.6% with GPT-5.6 Terra to 16.7% with GPT-6.1 Terra",
+          "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-launches-gpt-61-terra-with-3x-faster-ai-agents-50-percent-lower-pricing/",
+          "suggested_correction": "Add the passage that identifies the benchmark as internal and the speed claim to the evidence, or say: \"The error-rate figures reported for Terra are OpenAI's numbers; check them on your own tasks before you switch.\""
+        },
+        {
+          "sentence": "The news report says nothing about how long OpenAI keeps your data, or about HIPAA.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "This is a claim about what the whole article leaves out. The evidence file holds only four excerpts, so the absence cannot be confirmed from what was supplied.",
+          "evidence_excerpt": "",
+          "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-launches-gpt-61-terra-with-3x-faster-ai-agents-50-percent-lower-pricing/",
+          "suggested_correction": "The excerpts we reviewed do not mention data retention or HIPAA terms."
+        },
+        {
+          "sentence": "**Healthcare executives:** **Terra** is a cheaper option for routine AI work.",
+          "category": "implications",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The evidence supports 'cheaper' relative to two named models. It says nothing about suitability for 'routine AI work' in general. The only scope statement is about the most complex coding tasks.",
+          "evidence_excerpt": "OpenAI still recommends GPT-6.1 Sol or GPT-6 Astra for the most complex coding tasks.",
+          "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-launches-gpt-61-terra-with-3x-faster-ai-agents-50-percent-lower-pricing/",
+          "suggested_correction": "**Terra** is reported to cost less than GPT-5.6 Terra and GPT-6.1 Sol; whether it suits your routine AI work is something to test."
+        },
+        {
+          "sentence": "*Problem:* Teams that pull data from clinical notes with AI often pay for a top model on every note.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "No supplied evidence describes how healthcare teams choose or pay for models for clinical-note extraction. This is a factual-sounding generalization with no source.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "*Problem (our view):* Some teams may be using a top-tier model on every clinical note, even simple ones."
+        },
+        {
+          "sentence": "Many notes are simple.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "No supplied evidence addresses how complex clinical notes are.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Remove the sentence, or label it as an assumption: \"If many of your notes are simple, a cheaper model may be enough.\""
+        },
+        {
+          "sentence": "*Why now:* **GPT-6.1 Terra** (26 October) costs half as much as OpenAI's comparable models.",
+          "category": "attribution",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "The vendor pricing comparison appears without attribution, and 'comparable models' widens it beyond the two models the evidence names. 26 October is the article's publication date; the evidence says only that the model 'is available now', which does not pin down a separate release date.",
+          "evidence_excerpt": "50% lower than GPT-5.6 Terra and GPT-6.1 Sol.",
+          "source_url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-launches-gpt-61-terra-with-3x-faster-ai-agents-50-percent-lower-pricing/",
+          "suggested_correction": "*Why now:* BleepingComputer reported on 26 October that **GPT-6.1 Terra** is priced 50% lower than GPT-5.6 Terra and GPT-6.1 Sol."
+        }
+      ]
+    },
+    {
+      "area": "healthcare",
+      "findings": [
+        {
+          "sentence": "Only 7 of 26 patients (27%) needed no surgery for a year.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The supplied excerpts back the 7 of 26 (27%) count, but none gives the 12-month follow-up period, so 'for a year' is not supported. The excerpts also limit the count to patients with at least three baseline surgeries.",
+          "evidence_excerpt": "Seven (27%) out of 26 patients who had at least three baseline surgeries did not require any surgery intervention",
+          "source_url": "https://www.fda.gov/news-events/press-announcements/fda-approves-first-plasmid-dna-based-immunotherapy-adults-recurrent-respiratory-papillomatosis",
+          "suggested_correction": "Per FDA, 7 of 26 patients (27%) who had at least three surgeries before treatment did not need any surgery during the study period. (Add the passage giving the 12-month window to the evidence before stating it.)"
+        },
+        {
+          "sentence": "That is the same measure FDA used.",
+          "category": "implications",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "FDA's measure was whether patients with at least three baseline surgeries needed no surgery at all, which AJMC calls a complete response. It was not a before/after count of surgeries per patient. Calling the suggested local analysis 'the same measure' overstates how closely the two match.",
+          "evidence_excerpt": "7 of the 26 patients (27%; 95% CI: 12%-48%) demonstrated a complete response",
+          "source_url": "https://ajmc.com/view/fda-approves-first-plasmid-dna-based-immunotherapy-for-adults-with-rrp",
+          "suggested_correction": "This is close to, but not the same as, FDA's measure, which counted patients with at least three prior surgeries who needed no surgery at all."
+        },
+        {
+          "sentence": "FDA expects a draft plan for that trial by the end of 2026.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "None of the supplied excerpts mentions a confirmatory-protocol timeline. The draft's Items section credits this to AJMC (secondary coverage), but the So what states it as an FDA expectation with no attribution and no supporting passage.",
+          "evidence_excerpt": "",
+          "source_url": "https://ajmc.com/view/fda-approves-first-plasmid-dna-based-immunotherapy-for-adults-with-rrp",
+          "suggested_correction": "AJMC reports that FDA expects a draft confirmatory-trial protocol by the end of 2026. (Add the AJMC passage to the evidence, or remove the sentence.)"
+        },
+        {
+          "sentence": "*Problem:* Health systems that treat RRP often can't say how many airway surgeries each patient had last year.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "No supplied evidence describes how health systems track RRP surgeries or what data gaps they have. This is a factual generalization that does not appear in the sources.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "*Problem (our view):* Some health systems may not have a ready count of airway surgeries per RRP patient, which would make it harder to judge a new drug like Voceryq."
+        }
+      ]
+    }
+  ],
+  "fixture_results": [
+    {
+      "id": "proposal-as-final",
+      "flagged": true,
+      "category": "policy_status",
+      "evidence_excerpt": "The agency is seeking comment on this proposed policy through November 30."
+    },
+    {
+      "id": "vendor-benchmark-as-independent",
+      "flagged": true,
+      "category": "attribution",
+      "evidence_excerpt": "In our internal benchmark, the system was 40% more accurate than the baseline."
+    },
+    {
+      "id": "recommendation-as-legal-requirement",
+      "flagged": true,
+      "category": "policy_status",
+      "evidence_excerpt": "We recommend that clinics consider reviewing model outputs as part of local safety planning."
+    },
+    {
+      "id": "old-announcement-as-current",
+      "flagged": true,
+      "category": "timing",
+      "evidence_excerpt": "The agency announced the program on September 14, 2026."
+    },
+    {
+      "id": "supported-control",
+      "flagged": false,
+      "category": null,
+      "evidence_excerpt": "The final rule was published on October 26, 2026."
+    }
+  ]
+}
