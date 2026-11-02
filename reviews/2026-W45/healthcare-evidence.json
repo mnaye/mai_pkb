@@ -1,0 +1,29 @@
+{
+  "week": "2026-W45",
+  "area": "healthcare",
+  "draft": "healthcare/2026-W45.md",
+  "sources": [
+    {
+      "title": "FDA Approves First Plasmid DNA-Based Immunotherapy for Adults with Recurrent Respiratory Papillomatosis",
+      "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-first-plasmid-dna-based-immunotherapy-adults-recurrent-respiratory-papillomatosis",
+      "source_date": "2026-10-30",
+      "retrieved_at": "2026-11-02",
+      "excerpts": [
+        "The U.S. Food and Drug Administration today granted accelerated approval for Voceryq",
+        "an intermediate clinical endpoint reasonably likely to predict clinical benefit.",
+        "The manufacturer must conduct post-approval clinical trials to verify and describe Voceryq's clinical benefit.",
+        "Seven (27%) out of 26 patients who had at least three baseline surgeries did not require any surgery intervention"
+      ]
+    },
+    {
+      "title": "FDA Approves First Plasmid DNA-Based Immunotherapy for Adults With RRP (AJMC)",
+      "url": "https://ajmc.com/view/fda-approves-first-plasmid-dna-based-immunotherapy-for-adults-with-rrp",
+      "source_date": "2026-11-02",
+      "retrieved_at": "2026-11-02",
+      "excerpts": [
+        "7 of the 26 patients (27%; 95% CI: 12%-48%) demonstrated a complete response",
+        "Inovio must conduct postapproval clinical trials to verify and describe the treatment's clinical benefit."
+      ]
+    }
+  ]
+}
