@@ -1,0 +1,19 @@
+{
+  "week": "2026-W46",
+  "area": "ai-engineering",
+  "draft": "ai-engineering/2026-W46.md",
+  "sources": [
+    {
+      "title": "NVIDIA/auto-ontology (GitHub repository)",
+      "url": "https://github.com/NVIDIA/auto-ontology",
+      "source_date": null,
+      "retrieved_at": "2026-11-09",
+      "excerpts": [
+        "Auto Ontology is a Python framework for building semantic, graph-based reasoning layers over data.",
+        "Agents need a context layer that tells them where data lives.",
+        "serve context to any agent harness through MCP, CLI, and API.",
+        "This project is currently not accepting external contributions."
+      ]
+    }
+  ]
+}
