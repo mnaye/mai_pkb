@@ -1,0 +1,197 @@
+{
+  "week": "2026-W46",
+  "reviews": [
+    {
+      "area": "ai-engineering",
+      "findings": [
+        {
+          "sentence": "**Healthcare data scientists:** **NVIDIA/auto-ontology** turns plain questions into SQL (the code that pulls data from a database).",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The supplied excerpts describe a framework for 'semantic, graph-based reasoning layers over data' and serving context to agents; none says it converts natural-language questions into SQL.",
+          "evidence_excerpt": "Auto Ontology is a Python framework for building semantic, graph-based reasoning layers over data.",
+          "source_url": "https://github.com/NVIDIA/auto-ontology",
+          "suggested_correction": "**Healthcare data scientists:** The repo describes **NVIDIA/auto-ontology** as a framework for building reasoning layers over data. (The draft's text-to-SQL claim needs a supporting README excerpt before it is stated as fact.)"
+        },
+        {
+          "sentence": "It checks them against terms and definitions your team has approved.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "No supplied excerpt mentions certifying, approving or checking against team-approved terms or definitions.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Remove, or restore only after adding a README excerpt that describes term/SQL certification."
+        },
+        {
+          "sentence": "It also shows the SQL it wrote, so you can check every answer.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "No supplied excerpt says the tool returns its generated SQL; 'check every answer' also overstates what showing SQL would guarantee.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Remove, or replace with: 'If it shows the SQL it used (not confirmed in the excerpts read), reviewers can audit answers.'"
+        },
+        {
+          "sentence": "**ML engineers in healthcare:** **auto-ontology** builds its map from your database's metadata, and by default it uses AI models hosted by NVIDIA.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The excerpts do not mention building from database metadata or default use of NVIDIA-hosted models.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "**ML engineers in healthcare:** Before testing **auto-ontology**, check from its README which model endpoints it calls by default and what data it reads (not covered by the excerpts supplied)."
+        },
+        {
+          "sentence": "Column names and sample values can leak private health data (the law calls it PHI).",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "Adds a factual implication that the tool transmits column names and sample values externally; no supplied excerpt describes what data the tool sends or to where.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Suggestion (not from the source): if any tool sends schema or sample data to an outside model, column names and values could expose PHI, so verify what it sends before using real data."
+        },
+        {
+          "sentence": "There is no release yet, and NVIDIA is not taking outside code changes.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The contributions part is supported, but no supplied excerpt states that no release has been published.",
+          "evidence_excerpt": "This project is currently not accepting external contributions.",
+          "source_url": "https://github.com/NVIDIA/auto-ontology",
+          "suggested_correction": "The README says: \"This project is currently not accepting external contributions.\""
+        },
+        {
+          "sentence": "**Healthcare executives:** The tool's big idea is a shared, approved list of what your data terms mean.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The excerpt frames the idea as a context layer telling agents where data lives; it does not mention a shared, approved list of term definitions.",
+          "evidence_excerpt": "Agents need a context layer that tells them where data lives.",
+          "source_url": "https://github.com/NVIDIA/auto-ontology",
+          "suggested_correction": "**Healthcare executives:** The README's big idea is that \"Agents need a context layer that tells them where data lives.\""
+        },
+        {
+          "sentence": "Most health systems already fight over metric definitions.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "A general factual claim about health systems ('most') with no supporting passage in the evidence.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Many teams find that metric definitions differ across departments (editorial observation, not from the source)."
+        },
+        {
+          "sentence": "*Problem:* Teams answer \"what is our 30-day readmission rate?\" with different numbers, and each answer costs analyst time.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "Presented as a factual problem statement, but no evidence supplied supports it; it should be labeled as the editors' framing.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "*Problem (editorial view):* Teams may answer \"what is our 30-day readmission rate?\" with different numbers, which can cost analyst time."
+        },
+        {
+          "sentence": "*Why now:* **NVIDIA/auto-ontology** shows a way for AI to answer from definitions people have signed off on.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "No supplied excerpt mentions people signing off on or certifying definitions.",
+          "evidence_excerpt": "Agents need a context layer that tells them where data lives.",
+          "source_url": "https://github.com/NVIDIA/auto-ontology",
+          "suggested_correction": "*Why now:* **NVIDIA/auto-ontology** argues that \"Agents need a context layer that tells them where data lives,\" and serves that context to agents through MCP, CLI and API."
+        }
+      ]
+    },
+    {
+      "area": "healthcare",
+      "findings": [
+        {
+          "sentence": "**Healthcare data scientists:** The **Physician Fee Schedule** rule cuts Medicare's base pay rate by 2.31% for most doctors in 2027.",
+          "category": "evidence_support",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The 2.31% figure comes from Fierce's excerpt, which does not say it applies to 'most doctors'; the CMS excerpt gives a different figure (-1.83%) for the qualifying APM rate, so the scope 'most doctors' is not established by the evidence.",
+          "evidence_excerpt": "from $33.40 to $32.63, a 2.31% reduction.",
+          "source_url": "https://www.fiercehealthcare.com/regulatory/cms-finalizes-final-medicare-rule-deeper-cuts-physician-pay-delays-rpm-restrictions-2029",
+          "suggested_correction": "**Healthcare data scientists:** Per Fierce Healthcare, the **Physician Fee Schedule** final rule cuts the conversion factor from $33.40 to $32.63 (2.31%) for 2027; CMS lists a 1.83% cut for the qualifying APM rate."
+        },
+        {
+          "sentence": "From 2027, Fierce reports a visit is needed before RPM or RTM billing starts.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "Attributed to Fierce, but none of the supplied Fierce excerpts mention an initiating visit requirement or its 2027 start date.",
+          "evidence_excerpt": "",
+          "source_url": "https://www.fiercehealthcare.com/regulatory/cms-finalizes-final-medicare-rule-deeper-cuts-physician-pay-delays-rpm-restrictions-2029",
+          "suggested_correction": "Remove until a supporting passage is captured; if kept, mark it unconfirmed: 'Fierce coverage reportedly mentions an initiating-visit requirement from 2027 (not in the excerpts reviewed).'"
+        },
+        {
+          "sentence": "**Healthcare executives:** Plan for 2.31% less per unit of Medicare doctor pay starting 1 January 2027.",
+          "category": "evidence_support",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "Applies the 2.31% cut to all Medicare doctor pay, but the CMS excerpt shows qualifying APM clinicians get a 1.83% cut; the scope exceeds the evidence.",
+          "evidence_excerpt": "The CY 2027 qualifying APM conversion factor of $32.95 represents a projected decrease of $0.62 (-1.83%).",
+          "source_url": "https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2027-medicare-physician-fee-schedule-final-rule",
+          "suggested_correction": "**Healthcare executives:** Plan for a lower Medicare conversion factor for services on or after 1 January 2027: a 2.31% cut per Fierce Healthcare, or 1.83% for qualifying APM clinicians per CMS."
+        },
+        {
+          "sentence": "ACO doctors can get 32% more for a visit through a new, optional billing code.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The excerpt supports only a 32% E/M payment increase; it does not say it applies to ACO practitioners, that it is optional, or that it is a billing code. The draft's own item uses conditional 'would', while the So what states it as certain.",
+          "evidence_excerpt": "increase payment of the associated E/M visit by 32%",
+          "source_url": "https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2027-medicare-physician-fee-schedule-final-rule",
+          "suggested_correction": "The CMS fact sheet describes a policy that would \"increase payment of the associated E/M visit by 32%\"; check the fact sheet for which practitioners qualify and how it is billed."
+        },
+        {
+          "sentence": "Hospital leaders should check which off-campus imaging sites lose pay under the new site-neutral rule.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The recommendation embeds facts not in the excerpt: that the policy targets off-campus sites and that they 'lose pay'; the excerpt is limited to imaging without contrast and is a policy within the OPPS final rule, not a separate rule.",
+          "evidence_excerpt": "Site-Neutral Payment for Imaging without Contrast",
+          "source_url": "https://www.acc.org/Latest-in-Cardiology/Articles/2026/11/05/14/15/CMS-Releases-Final-2027-Medicare-Physician-Fee-Schedule-and-Hospital-OPPS-Rules",
+          "suggested_correction": "Suggestion: hospital leaders should check which imaging-without-contrast services are affected by the OPPS final rule's \"Site-Neutral Payment for Imaging without Contrast\" policy (per ACC; CMS's OPPS fact sheet was not read)."
+        }
+      ]
+    }
+  ],
+  "fixture_results": [
+    {
+      "id": "proposal-as-final",
+      "flagged": true,
+      "category": "policy_status",
+      "evidence_excerpt": "The agency is seeking comment on this proposed policy through November 30."
+    },
+    {
+      "id": "vendor-benchmark-as-independent",
+      "flagged": true,
+      "category": "attribution",
+      "evidence_excerpt": "In our internal benchmark, the system was 40% more accurate than the baseline."
+    },
+    {
+      "id": "recommendation-as-legal-requirement",
+      "flagged": true,
+      "category": "policy_status",
+      "evidence_excerpt": "We recommend that clinics consider reviewing model outputs as part of local safety planning."
+    },
+    {
+      "id": "old-announcement-as-current",
+      "flagged": true,
+      "category": "timing",
+      "evidence_excerpt": "The agency announced the program on September 14, 2026."
+    },
+    {
+      "id": "supported-control",
+      "flagged": false,
+      "category": null,
+      "evidence_excerpt": "The final rule was published on October 26, 2026."
+    }
+  ]
+}
