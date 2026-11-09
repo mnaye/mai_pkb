@@ -1,0 +1,43 @@
+{
+  "week": "2026-W46",
+  "area": "healthcare",
+  "draft": "healthcare/2026-W46.md",
+  "sources": [
+    {
+      "title": "Calendar Year (CY) 2027 Medicare Physician Fee Schedule Final Rule (CMS fact sheet)",
+      "url": "https://www.cms.gov/newsroom/fact-sheets/calendar-year-cy-2027-medicare-physician-fee-schedule-final-rule",
+      "source_date": "2026-11-04",
+      "retrieved_at": "2026-11-09",
+      "excerpts": [
+        "The CY 2027 qualifying APM conversion factor of $32.95 represents a projected decrease of $0.62 (-1.83%).",
+        "delaying for two years, to Jan. 1, 2029, the requirement to only allow payment for RPM or RTM services",
+        "This policy will be effective for RPM and RTM services beginning with CY 2029.",
+        "increase payment of the associated E/M visit by 32%",
+        "on or after Jan. 1, 2027"
+      ]
+    },
+    {
+      "title": "CMS finalizes steeper Medicare physician pay cuts for 2027, delays restriction on third-party RPM vendors (Fierce Healthcare)",
+      "url": "https://www.fiercehealthcare.com/regulatory/cms-finalizes-final-medicare-rule-deeper-cuts-physician-pay-delays-rpm-restrictions-2029",
+      "source_date": "2026-11-04",
+      "retrieved_at": "2026-11-09",
+      "excerpts": [
+        "from $33.40 to $32.63, a 2.31% reduction.",
+        "finalized steeper physician payment cuts than it had proposed in July.",
+        "RPM services must be performed by clinical staff employed by the practice.",
+        "practices that rely on contractors two additional years to adapt."
+      ]
+    },
+    {
+      "title": "CMS Releases Final 2027 Medicare Physician Fee Schedule and Hospital OPPS Rules (ACC)",
+      "url": "https://www.acc.org/Latest-in-Cardiology/Articles/2026/11/05/14/15/CMS-Releases-Final-2027-Medicare-Physician-Fee-Schedule-and-Hospital-OPPS-Rules",
+      "source_date": "2026-11-05",
+      "retrieved_at": "2026-11-09",
+      "excerpts": [
+        "2.3% increase",
+        "Site-Neutral Payment for Imaging without Contrast",
+        "eliminate the inpatient-only (IPO) list by 2029."
+      ]
+    }
+  ]
+}
