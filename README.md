@@ -26,7 +26,7 @@
 | Focus Area | Topics | Summary | File |
 | --- | --- | --- | --- |
 | 🤖 AI Engineering | `context` | **NVIDIA/auto-ontology** (~11k stars, +9.3k this week): a governed context layer that maps databases to certified terms and SQL and serves it to agents over MCP, CLI and API. No release yet.<br>**So what:** It shows a way for AI to answer data questions from definitions your team approved. Try it only on fake or de-identified data, since it uses NVIDIA-hosted models by default. ([more](ai-engineering/2026-W46.md#so-what)) | [2026-W46](ai-engineering/2026-W46.md) |
-| 🏥 Healthcare | `payment` · `payment` | **CY 2027 PFS final rule** (4 Nov): 2.31% conversion-factor cut, RPM/RTM in-house staff rule delayed to 2029, 32% ACO visit add-on. **CY 2027 OPPS final rule**: 2.3% update, site-neutral imaging without contrast.<br>**So what:** Plan for 2.31% less Medicare doctor pay from 1 January 2027. If an outside vendor runs your remote monitoring, you have until 2029 to bring it in-house. ([more](healthcare/2026-W46.md#so-what)) | [2026-W46](healthcare/2026-W46.md) |
+| 🏥 Healthcare | `payment` | **CY 2027 PFS final rule** (4 Nov): 2.31% conversion-factor cut, RPM/RTM in-house staff rule delayed to 2029, 32% ACO visit add-on. **CY 2027 OPPS final rule**: 2.3% update, site-neutral imaging without contrast.<br>**So what:** Plan for 2.31% less Medicare doctor pay from 1 January 2027. If an outside vendor runs your remote monitoring, you have until 2029 to bring it in-house. ([more](healthcare/2026-W46.md#so-what)) | [2026-W46](healthcare/2026-W46.md) |
 
 <!-- TRENDS:START -->
 
