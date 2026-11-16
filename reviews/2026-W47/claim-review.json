@@ -1,0 +1,247 @@
+{
+  "week": "2026-W47",
+  "reviews": [
+    {
+      "area": "ai-engineering",
+      "findings": [
+        {
+          "sentence": "Anthropic's own tests say it beats its last top model on coding and reasoning.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The claim is attributed to Anthropic, but none of the supplied excerpts mention benchmarks, coding or reasoning results, or a comparison with an earlier model. The comparison can't be checked against the evidence.",
+          "evidence_excerpt": "",
+          "source_url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+          "suggested_correction": "Anthropic says Fable 5.2 is a new release; check its benchmark claims on the announcement page before relying on them, and test on your own de-identified tasks."
+        },
+        {
+          "sentence": "By default, Anthropic keeps **Fable 5.2** data for 30 days for safety checks.",
+          "category": "evidence_support",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The excerpt applies 30-day retention to 'other customers', which means some customers are excluded. The supplied text doesn't say who is excluded or call this a 'default', so the draft makes the rule sound broader than the evidence shows.",
+          "evidence_excerpt": "For other customers, we have 30-day retention for safety monitoring.",
+          "source_url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+          "suggested_correction": "Anthropic says that for some customers ('other customers' on its announcement page) it keeps data for 30 days for safety monitoring; check which terms apply to your account."
+        },
+        {
+          "sentence": "Zero data retention is in private beta only.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "No supplied excerpt mentions zero data retention, Enterprise Frontier Safeguards, or a private beta.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Remove, or replace with: 'Ask Anthropic whether a zero-retention option is available to you.'"
+        },
+        {
+          "sentence": "That fits code that sits near patient data.",
+          "category": "implications",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "The evidence says only that local scans work without the optional Cloud connection. It says nothing about suitability for sensitive or patient-adjacent code, or about what data leaves the machine during a local scan. The draft adds an assurance that isn't in the evidence.",
+          "evidence_excerpt": "Cloud is an optional connection; local scans work without it.",
+          "source_url": "https://github.com/openai/codex-security",
+          "suggested_correction": "Suggestion: local scans may suit code near patient data, but first confirm with your security team what data is sent during a scan."
+        },
+        {
+          "sentence": "It still sends code to the model provider you pick, so choose one your security team has approved.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "No supplied excerpt describes model providers or says code is sent to them. The recommendation is fine, but the factual premise isn't in the evidence.",
+          "evidence_excerpt": "",
+          "source_url": "https://github.com/openai/codex-security",
+          "suggested_correction": "Check what code, if any, a scan sends to an outside model provider, and use only a provider your security team has approved."
+        },
+        {
+          "sentence": "Its SARIF output plugs into most code-scanning dashboards.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "SARIF export isn't in the supplied excerpts, and the claim about 'most code-scanning dashboards' is a general compatibility claim with no source.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Remove, or replace with: 'Check whether its export formats work with your existing code-scanning tools.'"
+        },
+        {
+          "sentence": "Both tools push AI into security work.",
+          "category": "implications",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The codex-security excerpt is about security work, but the Fable 5.2 excerpts cover price, retention and general availability. Only Mythos 5.2, not Fable 5.2, is tied to cybersecurity.",
+          "evidence_excerpt": "Cybersecurity professionals can apply for access to Claude Mythos 5.2 through the Cyber Verification Program.",
+          "source_url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+          "suggested_correction": "codex-security is a security tool, and Anthropic offers Mythos 5.2 to cybersecurity professionals through an application program."
+        },
+        {
+          "sentence": "Mythos 5.2 is only for groups that pass Anthropic's checks.",
+          "category": "evidence_support",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The excerpt says cybersecurity professionals can apply through a verification program. It doesn't say access is limited only to approved groups, or what the checks involve.",
+          "evidence_excerpt": "Cybersecurity professionals can apply for access to Claude Mythos 5.2 through the Cyber Verification Program.",
+          "source_url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+          "suggested_correction": "Anthropic says cybersecurity professionals can apply for Mythos 5.2 access through its Cyber Verification Program."
+        },
+        {
+          "sentence": "Budget for scan costs: the codex-security GitHub example caps a scan at about $5, but a scan can run over that cap.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The excerpt supports that requests in progress can go over the limit, but the $5 figure and the GitHub Action example aren't in the supplied evidence.",
+          "evidence_excerpt": "Requests in progress can exceed the limit.",
+          "source_url": "https://github.com/openai/codex-security",
+          "suggested_correction": "Budget for scan costs: the project says a spending limit can be set, but requests in progress can exceed the limit."
+        },
+        {
+          "sentence": "*Problem:* Code that touches patient records gets few security reviews, and a breach costs far more than a review.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "Both the review-frequency claim and the cost comparison are factual claims with no supplied source. The evidence covers only the codex-security tool.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "*Problem:* Code that touches patient records may not get regular security reviews in your organization; check how often yours is reviewed."
+        },
+        {
+          "sentence": "*Why now:* **openai/codex-security** scans locally, checks its own findings, and suggests fixes.",
+          "category": "attribution",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The finding, validating and fixing capabilities come from the project's own description, but the draft states them as verified facts without attribution.",
+          "evidence_excerpt": "OpenAI's Codex Security CLI and TypeScript SDK for finding, validating, and fixing security vulnerabilities.",
+          "source_url": "https://github.com/openai/codex-security",
+          "suggested_correction": "*Why now:* OpenAI describes **openai/codex-security** as a tool for finding, validating and fixing security vulnerabilities, with local scans that work without its Cloud connection."
+        }
+      ]
+    },
+    {
+      "area": "healthcare",
+      "findings": [
+        {
+          "sentence": "The **PATIENT AI Act** is a draft and changes no rules today.",
+          "category": "policy_status",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The excerpt is limited to manufacturers' obligations. The draft widens it to 'no rules' in general.",
+          "evidence_excerpt": "As a discussion draft, the proposal does not change manufacturers' obligations.",
+          "source_url": "https://www.thefdalawblog.com/?p=16257",
+          "suggested_correction": "The **PATIENT AI Act** is a discussion draft; the FDA Law Blog says it does not change manufacturers' obligations."
+        },
+        {
+          "sentence": "Section 202 of the **PATIENT AI Act** draft would let you file a change plan while FDA is still reviewing your device.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The excerpt says the proposal would let development continue while a submission is pending. It doesn't name Section 202 or describe filing a change plan. The draft text itself wasn't supplied.",
+          "evidence_excerpt": "This new proposal would allow development and improvements to continue while the submission is pending.",
+          "source_url": "https://www.thefdalawblog.com/?p=16257",
+          "suggested_correction": "The FDA Law Blog says one proposal in the draft 'would allow development and improvements to continue while the submission is pending.'"
+        },
+        {
+          "sentence": "That plan is called a PCCP: rules, agreed up front, for how your model can be updated.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "No supplied excerpt mentions PCCPs or defines them.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Remove, or cite a source that defines predetermined change control plans."
+        },
+        {
+          "sentence": "Lawyers at the FDA Law Blog warn it needs clear version rules.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The supplied excerpt warns of confusion but says nothing about version rules, so this specific remedy isn't in the evidence.",
+          "evidence_excerpt": "could become a recipe for confusion rather than faster review",
+          "source_url": "https://www.thefdalawblog.com/?p=16257",
+          "suggested_correction": "Lawyers at the FDA Law Blog warn the proposal 'could become a recipe for confusion rather than faster review.'"
+        },
+        {
+          "sentence": "Sen. Cassidy wants feedback by **1 December 2026**.",
+          "category": "attribution",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The excerpt supports the 1 December 2026 deadline but doesn't say who is requesting feedback. Sen. Cassidy isn't named in any supplied excerpt.",
+          "evidence_excerpt": "Stakeholder feedback on the proposal is requested by December 1, 2026.",
+          "source_url": "https://www.aacom.org/news-reports/news/2026/11/02/senate-help-committee-chairman-releases-draft-legislation-on-ai-in-healthcare",
+          "suggested_correction": "Feedback on the draft is requested by **1 December 2026** (AACOM, 2 November 2026)."
+        },
+        {
+          "sentence": "It is not law and changes nothing yet.",
+          "category": "policy_status",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The evidence says only that the discussion draft doesn't change manufacturers' obligations. 'Changes nothing' is broader than that.",
+          "evidence_excerpt": "As a discussion draft, the proposal does not change manufacturers' obligations.",
+          "source_url": "https://www.thefdalawblog.com/?p=16257",
+          "suggested_correction": "It is a discussion draft, and the FDA Law Blog says it does not change manufacturers' obligations."
+        },
+        {
+          "sentence": "One legal review calls the FDA part mostly a repeat of current rules.",
+          "category": "evidence_support",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The source says 'in many ways' duplicative of existing premarket pathways. The draft makes this more certain ('mostly') and broader ('current rules'). The excerpt also refers to Title II, not to 'the FDA part' as a whole.",
+          "evidence_excerpt": "Title II of this draft bill is, in many ways, duplicative of FDA's existing premarket authorization pathways.",
+          "source_url": "https://www.thefdalawblog.com/?p=16257",
+          "suggested_correction": "The FDA Law Blog says Title II is 'in many ways, duplicative of FDA's existing premarket authorization pathways.'"
+        },
+        {
+          "sentence": "Medicare coverage of AI may matter more to your budget than the FDA part.",
+          "category": "implications",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The evidence describes only a CMS pathway for coverage decisions. It says nothing about budget impact compared with the FDA provisions. This is the writer's judgment and isn't labeled as such.",
+          "evidence_excerpt": "a pathway for the Centers for Medicare & Medicaid Services to make coverage determinations for AI-based services",
+          "source_url": "https://www.aacom.org/news-reports/news/2026/11/02/senate-help-committee-chairman-releases-draft-legislation-on-ai-in-healthcare",
+          "suggested_correction": "Our suggestion: the draft's CMS coverage pathway for AI-based services may be worth a close look for budget reasons."
+        },
+        {
+          "sentence": "Drafts get shaped by the people who comment.",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "This is a general claim about how legislation is made, and no supplied source supports it.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Stakeholder feedback is requested by 1 December 2026, so this is the window to weigh in."
+        }
+      ]
+    }
+  ],
+  "fixture_results": [
+    {
+      "id": "proposal-as-final",
+      "flagged": true,
+      "category": "policy_status",
+      "evidence_excerpt": "The agency is seeking comment on this proposed policy through November 30."
+    },
+    {
+      "id": "vendor-benchmark-as-independent",
+      "flagged": true,
+      "category": "attribution",
+      "evidence_excerpt": "In our internal benchmark, the system was 40% more accurate than the baseline."
+    },
+    {
+      "id": "recommendation-as-legal-requirement",
+      "flagged": true,
+      "category": "policy_status",
+      "evidence_excerpt": "We recommend that clinics consider reviewing model outputs as part of local safety planning."
+    },
+    {
+      "id": "old-announcement-as-current",
+      "flagged": true,
+      "category": "timing",
+      "evidence_excerpt": "The agency announced the program on September 14, 2026."
+    },
+    {
+      "id": "supported-control",
+      "flagged": false,
+      "category": null,
+      "evidence_excerpt": "The final rule was published on October 26, 2026."
+    }
+  ]
+}
