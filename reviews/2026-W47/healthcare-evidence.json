@@ -1,0 +1,31 @@
+{
+  "week": "2026-W47",
+  "area": "healthcare",
+  "draft": "healthcare/2026-W47.md",
+  "sources": [
+    {
+      "title": "The PATIENT AI Act: A New Prescription for FDA Software Review, or More of the Same? (FDA Law Blog)",
+      "url": "https://www.thefdalawblog.com/?p=16257",
+      "source_date": "2026-11-08",
+      "retrieved_at": "2026-11-16",
+      "excerpts": [
+        "This new proposal would allow development and improvements to continue while the submission is pending.",
+        "could become a recipe for confusion rather than faster review",
+        "Title II of this draft bill is, in many ways, duplicative of FDA's existing premarket authorization pathways.",
+        "As a discussion draft, the proposal does not change manufacturers' obligations."
+      ]
+    },
+    {
+      "title": "Senate HELP Committee Chairman Releases Draft Legislation on AI in Healthcare (AACOM)",
+      "url": "https://www.aacom.org/news-reports/news/2026/11/02/senate-help-committee-chairman-releases-draft-legislation-on-ai-in-healthcare",
+      "source_date": "2026-11-02",
+      "retrieved_at": "2026-11-16",
+      "excerpts": [
+        "Stakeholder feedback on the proposal is requested by December 1, 2026.",
+        "a Food and Drug Administration review process for AI-enabled medical software",
+        "a pathway for the Centers for Medicare & Medicaid Services to make coverage determinations for AI-based services",
+        "to help healthcare professionals effectively implement AI tools"
+      ]
+    }
+  ]
+}
