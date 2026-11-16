@@ -1,0 +1,30 @@
+{
+  "week": "2026-W47",
+  "area": "ai-engineering",
+  "draft": "ai-engineering/2026-W47.md",
+  "sources": [
+    {
+      "title": "Introducing Claude Fable 5.2 and Claude Mythos 5.2 (Anthropic)",
+      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+      "source_date": "2026-11-09",
+      "retrieved_at": "2026-11-16",
+      "excerpts": [
+        "$8 per million input tokens and $40 per million output tokens",
+        "For other customers, we have 30-day retention for safety monitoring.",
+        "Cybersecurity professionals can apply for access to Claude Mythos 5.2 through the Cyber Verification Program.",
+        "Claude Fable 5.2 is available today on all platforms, including Amazon Web Services, Google Cloud, and Microsoft Azure."
+      ]
+    },
+    {
+      "title": "openai/codex-security (GitHub repository)",
+      "url": "https://github.com/openai/codex-security",
+      "source_date": null,
+      "retrieved_at": "2026-11-16",
+      "excerpts": [
+        "OpenAI's Codex Security CLI and TypeScript SDK for finding, validating, and fixing security vulnerabilities.",
+        "Cloud is an optional connection; local scans work without it.",
+        "Requests in progress can exceed the limit."
+      ]
+    }
+  ]
+}
