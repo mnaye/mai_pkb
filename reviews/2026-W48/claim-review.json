@@ -1,0 +1,197 @@
+{
+  "week": "2026-W48",
+  "reviews": [
+    {
+      "area": "ai-engineering",
+      "findings": [
+        {
+          "sentence": "**open-code-review** uses fixed rule steps for most of the work.",
+          "category": "evidence_support",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The evidence says only that the project combines deterministic engineering with an agent. It says nothing about how much of the work each part does, so 'most of the work' goes beyond the source.",
+          "evidence_excerpt": "Open Code Review's core philosophy is to combine deterministic engineering with an agent, each handling what it does best.",
+          "source_url": "https://github.com/alibaba/open-code-review",
+          "suggested_correction": "The project says it combines fixed, rule-based steps with an AI agent, each handling what it does best."
+        },
+        {
+          "sentence": "An AI agent (a model that takes steps on its own) only makes the judgment calls.",
+          "category": "evidence_support",
+          "assessment": "unsupported",
+          "severity": "low",
+          "reason": "The supplied text does not limit the agent to 'only' judgment calls or describe how work is split. The narrow role is an inference.",
+          "evidence_excerpt": "Open Code Review's core philosophy is to combine deterministic engineering with an agent, each handling what it does best.",
+          "source_url": "https://github.com/alibaba/open-code-review",
+          "suggested_correction": "An AI agent (a model that takes steps on its own) handles the parts the project says suit an agent best."
+        },
+        {
+          "sentence": "That makes its output easier to explain to an auditor than a free-form AI review.",
+          "category": "implications",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "None of the evidence mentions auditability or compares it with free-form AI review. This is the writer's own conclusion, stated as fact.",
+          "evidence_excerpt": "",
+          "source_url": "",
+          "suggested_correction": "Our view, not a sourced claim: fixed rule steps may make its output easier to explain to an auditor than a fully free-form AI review."
+        },
+        {
+          "sentence": "It runs in GitHub Actions and GitLab CI.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The supplied excerpts do not mention GitHub Actions, GitLab CI or any CI integration.",
+          "evidence_excerpt": "",
+          "source_url": "https://github.com/alibaba/open-code-review",
+          "suggested_correction": "The repo page reportedly lists CI integrations such as GitHub Actions and GitLab CI (not in the supplied excerpts; verify before relying on it)."
+        },
+        {
+          "sentence": "**open-code-review** is free under the Apache-2.0 license.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The supplied evidence does not state the license.",
+          "evidence_excerpt": "",
+          "source_url": "https://github.com/alibaba/open-code-review",
+          "suggested_correction": "The repo page lists an Apache-2.0 license (not in the supplied excerpts; confirm the LICENSE file before relying on it)."
+        },
+        {
+          "sentence": "It claims better precision than Claude Code at about one-ninth the tokens, but that is the project's own test.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The draft correctly credits the claim to the project, but no supplied excerpt contains the precision, Claude Code comparison, 1/9 token figure or AACR-Bench details. The specific numbers cannot be checked.",
+          "evidence_excerpt": "",
+          "source_url": "https://github.com/alibaba/open-code-review",
+          "suggested_correction": "The project's README reportedly claims better precision than Claude Code at lower token cost on its own benchmark. That figure is not in the supplied evidence and has not been independently checked."
+        }
+      ]
+    },
+    {
+      "area": "healthcare",
+      "findings": [
+        {
+          "sentence": "The **HIPAA Privacy Rule** update lets health plans share patient data to coordinate care for one person, not just groups.",
+          "category": "implications",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "The evidence says the rule 'confirms' an existing permission. It does not say the permission is new, and it does not compare with a prior groups-only rule. Both 'lets' (as if newly allowed) and 'not just groups' add a before-and-after contrast the evidence does not contain.",
+          "evidence_excerpt": "Confirms that health plans may use and disclose PHI for care coordination and case management for specific individuals.",
+          "source_url": "https://www.klgates.com/thought-leadership/HHS-Finalizes-HIPAA-Privacy-Rule-Changes-What-Every-Healthcare-Organization-Needs-to-Know-11-19-2026",
+          "suggested_correction": "According to a K&L Gates summary, the HIPAA Privacy Rule update confirms that health plans may use and share patient data for care coordination and case management for specific individuals."
+        },
+        {
+          "sentence": "Stricter state consent laws and Part 2 rules for addiction records still apply.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "The supplied excerpts do not mention 42 CFR Part 2 or state consent laws.",
+          "evidence_excerpt": "",
+          "source_url": "https://www.klgates.com/thought-leadership/HHS-Finalizes-HIPAA-Privacy-Rule-Changes-What-Every-Healthcare-Organization-Needs-to-Know-11-19-2026",
+          "suggested_correction": "Check with counsel whether 42 CFR Part 2 and stricter state consent laws still limit this sharing (not covered in the supplied evidence)."
+        },
+        {
+          "sentence": "Patients must get copies of their records in **15 days**, down from 30.",
+          "category": "evidence_support",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "The evidence sets a deadline for 'acting on a request', not a guarantee that patients receive copies. It also does not rule out an extension; the draft's own Items section mentions a 30-day extension. The sentence states a firmer, wider duty than the evidence supports.",
+          "evidence_excerpt": "Cuts the deadline for acting on a request for copies of PHI from 30 to 15 calendar days.",
+          "source_url": "https://www.klgates.com/thought-leadership/HHS-Finalizes-HIPAA-Privacy-Rule-Changes-What-Every-Healthcare-Organization-Needs-to-Know-11-19-2026",
+          "suggested_correction": "Per a K&L Gates summary, the deadline for acting on a patient's request for copies of their records drops from 30 to 15 calendar days (an extension may apply)."
+        },
+        {
+          "sentence": "You have until **17 July 2027** to comply.",
+          "category": "timing",
+          "assessment": "insufficient evidence",
+          "severity": "high",
+          "reason": "No supplied excerpt gives a compliance date, effective date or Federal Register publication date. The draft itself says the Federal Register text was not read.",
+          "evidence_excerpt": "",
+          "source_url": "https://www.klgates.com/thought-leadership/HHS-Finalizes-HIPAA-Privacy-Rule-Changes-What-Every-Healthcare-Organization-Needs-to-Know-11-19-2026",
+          "suggested_correction": "A law-firm summary reportedly gives a compliance date of 17 July 2027 (not in the supplied evidence). Confirm it in the Federal Register before planning around it."
+        },
+        {
+          "sentence": "First, the **HIPAA** rule has a firm compliance date of **17 July 2027**.",
+          "category": "timing",
+          "assessment": "insufficient evidence",
+          "severity": "high",
+          "reason": "The compliance date is not in the supplied evidence. 'Firm' overstates certainty for a date taken from a secondary law-firm summary and not checked against the Federal Register. The sentence also does not separate the compliance date from the effective date or the publication date.",
+          "evidence_excerpt": "",
+          "source_url": "https://www.klgates.com/thought-leadership/HHS-Finalizes-HIPAA-Privacy-Rule-Changes-What-Every-Healthcare-Organization-Needs-to-Know-11-19-2026",
+          "suggested_correction": "First, a law-firm summary reports a HIPAA compliance date of 17 July 2027 (separate from the effective date). Confirm it in the Federal Register text."
+        },
+        {
+          "sentence": "Budget now for faster records requests, new fee notices and updated vendor contracts (business associate agreements).",
+          "category": "implications",
+          "assessment": "insufficient evidence",
+          "severity": "low",
+          "reason": "The recommendation is fine as a suggestion, and fee notices are supported. But it implies that business associate agreements must be updated, and the supplied evidence does not mention them.",
+          "evidence_excerpt": "requires advance notice of fees.",
+          "source_url": "https://www.klgates.com/thought-leadership/HHS-Finalizes-HIPAA-Privacy-Rule-Changes-What-Every-Healthcare-Organization-Needs-to-Know-11-19-2026",
+          "suggested_correction": "Suggestion: budget for faster records requests and advance fee notices, and ask counsel whether vendor contracts (business associate agreements) need changes."
+        },
+        {
+          "sentence": "Second, the White House **withdrew Heidi Overton** as FDA Commissioner on 18 November.",
+          "category": "timing",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "The evidence says her nomination was pulled; she was a nominee, not the commissioner. The excerpt does not give a withdrawal date; 18 November is the article's publication date.",
+          "evidence_excerpt": "The White House has pulled Heidi Overton's nomination to be the Food and Drug Administration's next commissioner.",
+          "source_url": "https://www.biopharmadive.com/news/white-house-withdraw-heidi-overton-fda-commissioner-nomination/874961/",
+          "suggested_correction": "Second, the White House pulled Heidi Overton's nomination for FDA Commissioner, as reported by BioPharma Dive on 18 November."
+        },
+        {
+          "sentence": "The acting head is reported to leave at year's end, and there is no new nominee.",
+          "category": "evidence_support",
+          "assessment": "insufficient evidence",
+          "severity": "medium",
+          "reason": "No supplied excerpt says the acting commissioner will leave at year's end or that there is no new nominee. The only RAPS excerpt is about the HELP vote moving to the full Senate.",
+          "evidence_excerpt": "",
+          "source_url": "https://www.raps.org/resource/this-week-senate-help-to-vote-on-overton-fda-shelves-cnpv-and-more.html",
+          "suggested_correction": "Leadership after the withdrawal is unclear; the supplied evidence does not confirm the acting head's plans or whether a new nominee has been named."
+        },
+        {
+          "sentence": "Expect slower or shifting FDA policy on AI devices.",
+          "category": "implications",
+          "assessment": "unsupported",
+          "severity": "medium",
+          "reason": "None of the evidence links the withdrawn nomination to FDA AI-device policy or its pace. This forecast is stated as fact.",
+          "evidence_excerpt": "Overton's withdrawal resets the 210-day clock.",
+          "source_url": "https://www.biopharmadive.com/news/white-house-withdraw-heidi-overton-fda-commissioner-nomination/874961/",
+          "suggested_correction": "Our view, not a sourced claim: leadership uncertainty could slow or shift FDA policy, including on AI devices."
+        }
+      ]
+    }
+  ],
+  "fixture_results": [
+    {
+      "id": "proposal-as-final",
+      "flagged": true,
+      "category": "policy_status",
+      "evidence_excerpt": "The agency is seeking comment on this proposed policy through November 30."
+    },
+    {
+      "id": "vendor-benchmark-as-independent",
+      "flagged": true,
+      "category": "attribution",
+      "evidence_excerpt": "In our internal benchmark, the system was 40% more accurate than the baseline."
+    },
+    {
+      "id": "recommendation-as-legal-requirement",
+      "flagged": true,
+      "category": "policy_status",
+      "evidence_excerpt": "We recommend that clinics consider reviewing model outputs as part of local safety planning."
+    },
+    {
+      "id": "old-announcement-as-current",
+      "flagged": true,
+      "category": "timing",
+      "evidence_excerpt": "The agency announced the program on September 14, 2026."
+    },
+    {
+      "id": "supported-control",
+      "flagged": false,
+      "category": null,
+      "evidence_excerpt": "The final rule was published on October 26, 2026."
+    }
+  ]
+}
