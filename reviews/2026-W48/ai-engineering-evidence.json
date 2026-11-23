@@ -1,0 +1,27 @@
+{
+  "week": "2026-W48",
+  "area": "ai-engineering",
+  "draft": "ai-engineering/2026-W48.md",
+  "sources": [
+    {
+      "title": "alibaba/open-code-review (GitHub repository)",
+      "url": "https://github.com/alibaba/open-code-review",
+      "source_date": null,
+      "retrieved_at": "2026-11-23",
+      "excerpts": [
+        "Open Code Review's core philosophy is to combine deterministic engineering with an agent, each handling what it does best.",
+        "OpenAI & Anthropic compatible",
+        "Simply configure a model endpoint to get started."
+      ]
+    },
+    {
+      "title": "GitHub Trending 2026-11-18: Popular repos are turning agents into handoff-ready workflows (Shareuhack)",
+      "url": "https://www.shareuhack.com/en/posts/github-trending-weekly-2026-11-18",
+      "source_date": "2026-11-18",
+      "retrieved_at": "2026-11-23",
+      "excerpts": [
+        "Stars are attention signals, not endorsements."
+      ]
+    }
+  ]
+}
