@@ -1,0 +1,40 @@
+{
+  "week": "2026-W48",
+  "area": "healthcare",
+  "draft": "healthcare/2026-W48.md",
+  "sources": [
+    {
+      "title": "HHS Finalizes HIPAA Privacy Rule Changes: What Every Healthcare Organization Needs to Know (K&L Gates)",
+      "url": "https://www.klgates.com/thought-leadership/HHS-Finalizes-HIPAA-Privacy-Rule-Changes-What-Every-Healthcare-Organization-Needs-to-Know-11-19-2026",
+      "source_date": "2026-11-19",
+      "retrieved_at": "2026-11-23",
+      "excerpts": [
+        "Cuts the deadline for acting on a request for copies of PHI from 30 to 15 calendar days.",
+        "Confirms that an individual may obtain electronic PHI through a personal health application.",
+        "Bars identity verification steps that impose unnecessary effort or expense.",
+        "requires advance notice of fees.",
+        "Confirms that health plans may use and disclose PHI for care coordination and case management for specific individuals.",
+        "Expressly permits disclosures to social services agencies, community-based organizations, and similar third parties."
+      ]
+    },
+    {
+      "title": "White House pulls nomination for FDA nominee Overton (BioPharma Dive)",
+      "url": "https://www.biopharmadive.com/news/white-house-withdraw-heidi-overton-fda-commissioner-nomination/874961/",
+      "source_date": "2026-11-18",
+      "retrieved_at": "2026-11-23",
+      "excerpts": [
+        "The White House has pulled Heidi Overton's nomination to be the Food and Drug Administration's next commissioner.",
+        "Overton's withdrawal resets the 210-day clock."
+      ]
+    },
+    {
+      "title": "This Week: Senate HELP to vote on Overton, FDA shelves CNPV and more (RAPS)",
+      "url": "https://www.raps.org/resource/this-week-senate-help-to-vote-on-overton-fda-shelves-cnpv-and-more.html",
+      "source_date": "2026-11-13",
+      "retrieved_at": "2026-11-23",
+      "excerpts": [
+        "If the vote passes, her nomination will move to the full Senate for confirmation."
+      ]
+    }
+  ]
+}
